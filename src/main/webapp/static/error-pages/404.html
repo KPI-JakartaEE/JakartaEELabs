@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Not found</title>
+
+    <link rel="icon" type="image/png"
+          href="https://avatars.githubusercontent.com/u/198439363?s=400&u=41d28b536c7a57d37acefcb97c157bc4b261c4bd&v=4">
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        .not-found-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            height: 100%;
+            width: 100%;
+
+            color: #3d251a;
+            background-image: linear-gradient(to right, #a1a182, #38617b);
+        }
+
+        .not-found {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 90%;
+            width: 90%;
+
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .back-to-main-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            height: 50px;
+            width: 150px;
+
+            margin-bottom: 20px;
+
+            color: white;
+            background-color: black;
+
+            border-radius: 10px;
+
+            text-decoration: none;
+
+            transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+            box-shadow: 0px 2px 0px #161f1d;
+
+            cursor: pointer;
+        }
+
+
+        .back-to-main-btn::selection {
+            background-color: #2d312fbf;
+            color: rgb(230, 231, 231);
+        }
+
+        .back-to-main-btn:active {
+            transform: translateY(5px);
+            box-shadow: 0px 5px 0px #161f1d;
+        }
+
+        .back-to-main-btn:visited {
+            color: white;
+        }
+
+        .back-to-main-btn:hover {
+            background-color: #1f2522;
+            cursor: pointer;
+
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="not-found-container">
+    <div class="not-found">Page not found</div>
+
+    <a class="back-to-main-btn" href="http://localhost:8080/demo-1.0/">Back to main page</a>
+</div>
+</body>
+</html>
