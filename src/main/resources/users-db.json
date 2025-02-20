@@ -1,0 +1,50 @@
+[
+  {
+    "username": "Username1",
+    "name": "Name1",
+    "group": "Group",
+    "githubLink": "",
+    "githubAvatarLink": "",
+    "page": "user1.jsp"
+  },
+  {
+    "username": "Username2",
+    "name": "Name2",
+    "group": "Group",
+    "githubLink": "",
+    "githubAvatarLink": "",
+    "page": "user2.jsp"
+  },
+  {
+    "username": "Username3",
+    "name": "Name3",
+    "group": "Group",
+    "githubLink": "",
+    "githubAvatarLink": "",
+    "page": "user3.jsp"
+  },
+  {
+    "username": "Username4",
+    "name": "Name4",
+    "group": "Group",
+    "githubLink": "",
+    "githubAvatarLink": "",
+    "page": "user4.jsp"
+  },
+  {
+    "username": "Username5",
+    "name": "Name5",
+    "group": "Group",
+    "githubLink": "",
+    "githubAvatarLink": "",
+    "page": "user5.jsp"
+  },
+  {
+    "username": "Username6",
+    "name": "Name6",
+    "group": "Group",
+    "githubLink": "",
+    "githubAvatarLink": "",
+    "page": "user6.html"
+  }
+]

@@ -8,6 +8,8 @@ import ua.kpi.jakartaee.exceptions.UserNotFoundException;
 import ua.kpi.jakartaee.repository.UserRepository;
 import ua.kpi.jakartaee.repository.model.User;
 
+import java.util.List;
+
 @ApplicationScoped
 @Named("userServiceImpl")
 public class UserServiceImpl implements UserService {
@@ -15,6 +17,11 @@ public class UserServiceImpl implements UserService {
     @Inject
     @Named("userRepositoryInCodeImpl")
     private UserRepository userRepository;
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     @Override
     public String getUserPage(String username) throws UserNotFoundException, PageNotFoundException {
@@ -26,12 +33,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository
                 .findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
-        String jspPageName = user.getJspPageName();
+        String page = user.getPage();
 
-        if (jspPageName == null || jspPageName.isBlank()) {
-            throw new PageNotFoundException("Page with name" + jspPageName + " was not found");
+        if (page == null || page.isBlank()) {
+            throw new PageNotFoundException("Page with name" + page + " was not found");
         }
 
-        return "/views/" + jspPageName + ".jsp";
+        return "/WEB-INF/view/user-pages/" + page;
     }
 }
