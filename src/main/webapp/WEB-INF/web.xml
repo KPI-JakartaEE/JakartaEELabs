@@ -4,11 +4,6 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
          version="6.0">
 
-    <context-param>
-        <param-name>jspPagesLocation</param-name>
-        <param-value>/views/</param-value>
-    </context-param>
-
     <error-page>
         <error-code>404</error-code>
         <location>/WEB-INF/static/error-pages/404.html</location>
