@@ -13,7 +13,7 @@ import ua.kpi.jakartaee.service.UserService;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "")
+@WebServlet("")
 public class ApplicationServlet extends HttpServlet {
 
     @Inject

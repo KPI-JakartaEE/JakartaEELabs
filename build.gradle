@@ -12,6 +12,7 @@ repositories {
 
 ext {
     junitVersion = '5.10.2'
+    mockitoVersion = '5.15.2'
 }
 
 sourceCompatibility = '17'
@@ -38,6 +39,13 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+    testImplementation 'org.assertj:assertj-core:3.27.3'
+
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.mockito:mockito-junit-jupiter:$mockitoVersion"
+
+
 }
 
 test {

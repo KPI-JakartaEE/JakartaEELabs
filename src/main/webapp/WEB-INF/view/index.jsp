@@ -65,14 +65,14 @@
           <div class="member-group">${user.group}</div>
           <a class="member-links" href="${user.githubLink}">GitHub</a>
         </div>
-        <a class="visit-button" href="${pageContext.request.contextPath}/users/${user.username}">More</a>
+        <a class="visit-button" href="${pageContext.request.contextPath}/team/members/${user.username}">More</a>
       </div>
     </c:forEach>
   </div>
 </main>
 <footer>
   <a class="footer-info-container" href="https://github.com/KPI-JakartaEE">
-    <img class="kpi-logo" src="${pageContext.request.contextPath}/images/github-logo.png" alt="JakarataEE logo">
+    <img class="kpi-logo" src="${pageContext.request.contextPath}/images/github-logo.png" alt="JakartaEE logo">
     <div>Our GitHub</div>
   </a>
 </footer>
