@@ -23,8 +23,8 @@
         <div class="user-img-container">
             <img class="user-img" src="${user.githubAvatarLink}" alt="User image">
         </div>
-        <div class="username">Глюза Андрій</div>
-        <div class="user-group">ІО-41мн</div>
+        <div class="username">${user.name}</div>
+        <div class="user-group">${user.group}</div>
         <a class="github-container" href="${user.githubLink}">
             <img class="github" src="${pageContext.request.contextPath}/images/github-logo.png" alt="GitHub">
             <div class="user-group">GitHub</div>
