@@ -14,7 +14,7 @@
 </head>
 <body>
 <nav>
-    <a class="arrow-container" href="${pageContext.request.contextPath}/">
+    <a class="home-btn" href="${pageContext.request.contextPath}/">
         <img class="home-img" src="${pageContext.request.contextPath}/images/home.png" alt="Back to Home Image">
     </a>
 </nav>
