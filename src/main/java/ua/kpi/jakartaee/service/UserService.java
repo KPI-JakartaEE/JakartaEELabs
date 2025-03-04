@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface UserService {
     List<User> getAllUsers();
+    User getUser(String username) throws UserNotFoundException;
     String getUserPage(String username) throws PageNotFoundException, UserNotFoundException;
 }
