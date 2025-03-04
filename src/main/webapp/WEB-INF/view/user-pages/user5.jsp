@@ -22,6 +22,7 @@
             <p>C++/UE Developer</p>
             <p>Group: ${user.group}</p>
             <p>Github: <a href="${user.githubLink}" target="_blank" class="github-link">${user.githubLink}</a></p>
+            <a href="${pageContext.request.contextPath}/rickroll" class="button more-button">More</a>
         </div>
     </body>
 </html>
