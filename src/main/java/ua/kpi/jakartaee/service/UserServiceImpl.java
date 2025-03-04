@@ -24,6 +24,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUser(String username) throws UserNotFoundException {
+        if (username == null || username.isBlank()) {
+            throw new UserNotFoundException();
+        }
+        username = username.substring(1);
+
+        return userRepository
+                .findByUsername(username)
+                .orElseThrow(UserNotFoundException::new);
+    }
+
+    @Override
     public String getUserPage(String username) throws UserNotFoundException, PageNotFoundException {
         if (username == null || username.isBlank()) {
             throw new UserNotFoundException();

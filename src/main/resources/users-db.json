@@ -1,18 +1,18 @@
 [
   {
-    "username": "Username1",
-    "name": "Name1",
-    "group": "Group",
-    "githubLink": "",
-    "githubAvatarLink": "",
+    "username": "AndriiHL",
+    "name": "Глюза Андрій",
+    "group": "ІО-41мн",
+    "githubLink": "https://github.com/AndriiHliuza",
+    "githubAvatarLink": "https://avatars.githubusercontent.com/u/98809528?v=4",
     "page": "user1.jsp"
   },
   {
-    "username": "Username2",
-    "name": "Name2",
-    "group": "Group",
-    "githubLink": "",
-    "githubAvatarLink": "",
+    "username": "MartaStepaniuk",
+    "name": "Степанюк Марта",
+    "group": "ІО-42мп",
+    "githubLink": "https://github.com/MartaStepaniuk",
+    "githubAvatarLink": "https://avatars.githubusercontent.com/u/78951398?s=400&u=8fe02a92ff3ef1bbd896cfe360a7ff0151d79e45&v=4",
     "page": "user2.jsp"
   },
   {
