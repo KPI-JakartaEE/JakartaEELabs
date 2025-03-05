@@ -24,11 +24,11 @@
     "page": "user3.jsp"
   },
   {
-    "username": "Username4",
-    "name": "Name4",
-    "group": "Group",
-    "githubLink": "",
-    "githubAvatarLink": "",
+    "username": "aral0k",
+    "name": "Андрій Михайлов",
+    "group": "ІО-41 мп",
+    "githubLink": "https://github.com/AndrewMikhaylov",
+    "githubAvatarLink": "/images/mikhaylov/mikhaylov_profile.jpg",
     "page": "user4.jsp"
   },
   {
