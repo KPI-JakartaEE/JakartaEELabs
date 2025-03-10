@@ -1,0 +1,100 @@
+body {
+    background:
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(42, 0, 56, 0.8)),
+            url('https://i.redd.it/jpwwukimooc31.png') no-repeat center center/cover;
+    color: #e0e0e0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+}
+
+.container {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    max-width: 400px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.container:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.2);
+}
+
+h1 {
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+p {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+.home-button {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: #333;
+    color: #e0e0e0;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.home-button:hover {
+    background: #555;
+}
+
+.home-button img {
+    width: 32px;
+    height: 32px;
+    margin-right: 5px;
+}
+
+.button {
+    background: #333;
+    color: #e0e0e0;
+    border: none;
+    padding: 8px 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+}
+
+.button:hover {
+    background: #555;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+.github-link {
+    font-weight: bold;
+    color: white;
+}
+
+.more-button {
+    margin-top: 15px;
+    display: inline-block;
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "username": "AndriiHL",
+    "name": "Глюза Андрій",
+    "group": "ІО-41мн",
+    "githubLink": "https://github.com/AndriiHliuza",
+    "githubAvatarLink": "https://avatars.githubusercontent.com/u/98809528?v=4",
+    "page": "user1.jsp"
+  },
+  {
+    "username": "MartaStepaniuk",
+    "name": "Степанюк Марта",
+    "group": "ІО-42мп",
+    "githubLink": "https://github.com/MartaStepaniuk",
+    "githubAvatarLink": "https://avatars.githubusercontent.com/u/78951398?s=400&u=8fe02a92ff3ef1bbd896cfe360a7ff0151d79e45&v=4",
+    "page": "user2.jsp"
+  },
+  {
+    "username": "antonsadlovskiy",
+    "name": "Anton Sadlovskiy",
+    "group": "ІО-42мп",
+    "githubLink": "https://github.com/antonsadlovskyi",
+    "githubAvatarLink": "https://avatars.githubusercontent.com/u/23292697?v=4",
+    "page": "user3.jsp"
+  },
+  {
+    "username": "aral0k",
+    "name": "Андрій Михайлов",
+    "group": "ІО-41 мп",
+    "githubLink": "https://github.com/AndrewMikhaylov",
+    "githubAvatarLink": "/images/mikhaylov/mikhaylov_profile.jpg",
+    "page": "user4.jsp"
+  },
+  {
+    "username": "maza4aka",
+    "name": "Anton Yasnov",
+    "group": "ІО-41мн",
+    "githubLink": "https://github.com/maza4aka-ay",
+    "githubAvatarLink": "https://avatars.githubusercontent.com/u/93518135?v=4",
+    "page": "user5.jsp"
+  }
+]
