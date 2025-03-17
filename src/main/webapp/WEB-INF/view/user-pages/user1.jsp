@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${user.username}</title>
+    <title><c:out value="${user.username}" /></title>
     <link rel="icon" type="image/png" href="https://avatars.githubusercontent.com/u/198439363?s=400&u=41d28b536c7a57d37acefcb97c157bc4b261c4bd&v=4">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/user1.css">
 </head>
@@ -23,8 +23,8 @@
         <div class="user-img-container">
             <img class="user-img" src="${user.githubAvatarLink}" alt="User image">
         </div>
-        <div class="username">${user.name}</div>
-        <div class="user-group">${user.group}</div>
+        <div class="username"><c:out value="${user.name}" /></div>
+        <div class="user-group"><c:out value="${user.group}" /></div>
         <a class="github-container" href="${user.githubLink}">
             <img class="github" src="${pageContext.request.contextPath}/images/github-logo.png" alt="GitHub">
             <div class="user-group">GitHub</div>
