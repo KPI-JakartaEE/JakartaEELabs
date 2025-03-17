@@ -29,6 +29,10 @@ war {
 dependencies {
     compileOnly('jakarta.platform:jakarta.jakartaee-api:10.0.0')
 
+    implementation 'jakarta.security.enterprise:jakarta.security.enterprise-api:3.0.0'
+    implementation 'jakarta.authentication:jakarta.authentication-api:3.0.0'
+    implementation 'jakarta.authorization:jakarta.authorization-api:3.0.0'
+
     implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
     implementation 'org.glassfish.web:jakarta.servlet.jsp.jstl:3.0.0'
 
