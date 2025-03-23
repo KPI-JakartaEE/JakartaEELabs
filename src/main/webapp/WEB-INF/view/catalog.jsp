@@ -17,7 +17,7 @@
     <h1>Каталог бібліотеки</h1>
 
     <div class="search-section">
-        <form class="search-form" action="catalog" method="get" accept-charset="UTF-8">
+        <form class="search-form" action="${pageContext.request.contextPath}/library/books" method="get" accept-charset="UTF-8">
             <div class="search-fields">
                 <div class="field">
                     <label for="author">Пошук за автором:</label>
@@ -25,8 +25,8 @@
                 </div>
 
                 <div class="field">
-                    <label for="name">Пошук за назвою:</label>
-                    <input type="text" id="name" name="name" value="<c:out value="${param.name}" />">
+                    <label for="title">Пошук за назвою:</label>
+                    <input type="text" id="title" name="title" value="<c:out value="${param.title}" />">
                 </div>
 
                 <div class="field">
@@ -46,14 +46,14 @@
         </form>
     </div>
 
-    <c:if test="${not empty param.author || not empty param.name || not empty param.keyword || not empty param.genre}">
+    <c:if test="${not empty param.author || not empty param.title || not empty param.keyword || not empty param.genre}">
         <div class="search-results-info">
             <p class="search-results-title">Результати пошуку:</p>
             <c:if test="${not empty param.author}">
                 <span class="search-param">Автор <strong><c:out value="${param.author}"/></strong></span>
             </c:if>
-            <c:if test="${not empty param.name}">
-                <span class="search-param">Назва <strong><c:out value="${param.name}"/></strong></span>
+            <c:if test="${not empty param.title}">
+                <span class="search-param">Назва <strong><c:out value="${param.title}"/></strong></span>
             </c:if>
             <c:if test="${not empty param.keyword}">
                 <span class="search-param">Ключове слово <strong><c:out value="${param.keyword}"/></strong></span>
@@ -74,7 +74,7 @@
             <c:otherwise>
                 <c:forEach var="book" items="${books}">
                     <div class="book-item">
-                        <div class="book-title"><c:out value="${book.name}"/></div>
+                        <div class="book-title"><c:out value="${book.title}"/></div>
                         <div class="book-author">Автор: <c:out value="${book.author}"/></div>
                         <div class="book-description"><c:out value="${book.description}"/></div>
                         <div class="book-genre">Жанр: <c:out value="${book.genre}"/></div>
