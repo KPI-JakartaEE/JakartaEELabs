@@ -1,10 +1,12 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <jsp:useBean id="user" scope="request" type="ua.kpi.jakartaee.repository.model.User"/>
 
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${user.username}</title>
+    <title><c:out value="${user.username}" /></title>
     <link rel="icon"
           type="image/png"
           href="https://avatars.githubusercontent.com/u/198439363?s=400&u=41d28b536c7a57d37acefcb97c157bc4b261c4bd&v=4"
