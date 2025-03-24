@@ -15,7 +15,6 @@ public class BookDTO {
     private String bookId;
     private String title;
     private String author;
-    private String publicationDate;
     private String genre;
     private List<String> keywords;
     private String description;
