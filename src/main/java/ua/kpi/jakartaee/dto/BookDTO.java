@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,5 +17,6 @@ public class BookDTO {
     private String author;
     private String publicationDate;
     private String genre;
+    private List<String> keywords;
     private String description;
 }

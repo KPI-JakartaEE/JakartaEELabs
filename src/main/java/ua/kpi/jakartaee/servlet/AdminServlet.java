@@ -10,12 +10,13 @@ import ua.kpi.jakartaee.dto.BookDTO;
 import ua.kpi.jakartaee.service.BookService;
 
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/admin")
 @RolesAllowed("ADMIN")
 public class AdminServlet extends HttpServlet {
 
-//    @Inject
+    //    @Inject
     private BookService bookService;
 
     @Override
@@ -33,6 +34,7 @@ public class AdminServlet extends HttpServlet {
                     .author(req.getParameter("author"))
                     .publicationDate(req.getParameter("publicationDate"))
                     .genre(req.getParameter("genre"))
+                    .keywords(List.of(req.getParameterValues("keywords")))
                     .description(req.getParameter("description"))
                     .build());
         } catch (Exception e) {
@@ -52,6 +54,7 @@ public class AdminServlet extends HttpServlet {
                     .author(req.getParameter("author"))
                     .publicationDate(req.getParameter("publicationDate"))
                     .genre(req.getParameter("genre"))
+                    .keywords(List.of(req.getParameterValues("keywords")))
                     .description(req.getParameter("description"))
                     .build());
         } catch (Exception e) {
