@@ -1,0 +1,143 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 1rem;
+    background-color: #f5f5f5;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333333;
+    text-align: center;
+    margin: 0;
+}
+
+.search-section {
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.search-fields {
+    display: flex;
+    gap: 1rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+}
+
+.field label {
+    font-weight: bold;
+}
+
+.field input[type="text"] {
+    padding: 8px;
+    border: 1px solid #dddddd;
+    border-radius: 3px;
+}
+
+.search-button {
+    text-align: center;
+}
+
+.search-button button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #45a049;
+}
+
+.book-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.book-item {
+    border: 1px solid #dddddd;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.book-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 5px;
+}
+
+.book-author {
+    font-style: italic;
+    color: #666666;
+    margin-bottom: 10px;
+}
+
+.book-description {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.book-genre {
+    display: inline-block;
+    background-color: #e0e0e0;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.keyword {
+    background-color: #f0f7ff;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+    border: 1px solid #d0e0ff;
+}
+
+.search-results-info {
+    padding: 1rem;
+    background-color: #f0f7ff;
+    border-radius: 5px;
+}
+
+.search-results-title {
+    margin: 0 0 10px;
+}
+
+.search-param {
+    margin-right: 1rem;
+}
+
+.no-results {
+    text-align: center;
+    padding: 1rem;
+    background-color: #fff9e0;
+    border-radius: 5px;
+}

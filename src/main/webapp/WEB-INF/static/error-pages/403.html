@@ -15,7 +15,7 @@
             height: 100%;
         }
 
-        .not-found-container {
+        .auth-failure-container {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -28,7 +28,7 @@
             background-image: linear-gradient(to right, #a1a182, #38617b);
         }
 
-        .not-found {
+        .auth-failure {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -38,9 +38,11 @@
 
             font-size: 60px;
             font-weight: bold;
+
+            text-align: center;
         }
 
-        .back-to-main-btn {
+        .back-to-btn {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -64,21 +66,21 @@
         }
 
 
-        .back-to-main-btn::selection {
+        .back-to-btn::selection {
             background-color: #2d312fbf;
             color: rgb(230, 231, 231);
         }
 
-        .back-to-main-btn:active {
+        .back-to-btn:active {
             transform: translateY(5px);
             box-shadow: 0px 5px 0px #161f1d;
         }
 
-        .back-to-main-btn:visited {
+        .back-to-btn:visited {
             color: white;
         }
 
-        .back-to-main-btn:hover {
+        .back-to-btn:hover {
             background-color: #1f2522;
             cursor: pointer;
 
@@ -88,10 +90,10 @@
 </head>
 <body>
 
-<div class="not-found-container">
-    <div class="not-found">Page not found</div>
-
-    <a class="back-to-main-btn" href="/ROOT/">Back to main page</a>
+<div class="auth-failure-container">
+    <div class="auth-failure">Unauthorized Access</div>
+    <a class="back-to-btn" href="/ROOT/login">Login</a>
+    <a class="back-to-btn" href="/ROOT/">Back to main page</a>
 </div>
 </body>
 </html>
