@@ -3,6 +3,7 @@ package ua.kpi.jakartaee.service;
 import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import ua.kpi.jakartaee.dto.BookDTO;
+import ua.kpi.jakartaee.exceptions.BookServiceException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,18 +36,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean addBook(BookDTO bookDTO) {
-        final int bookIndex = findBookIndex(bookDTO.getBookId());
+    public void addBook(BookDTO bookDTO) throws BookServiceException {
+        final String bookId = bookDTO.getBookId();
+        final int bookIndex = findBookIndex(bookId);
 
         if (bookIndex != -1) {
-            return false;
+            throw new BookServiceException("Book already exists with id " + bookId + ". Add failed.");
         }
 
-        return books.add(bookDTO);
+        books.add(bookDTO);
     }
 
     @Override
     public List<BookDTO> getBooks(String author, String title, String keyword, String genre) {
+        // TODO(Yasnov): This is garbage, we should not copy storage each time!
         List<BookDTO> filteredBooks = new ArrayList<>(books);
 
         if (author != null && !author.isEmpty()) {
@@ -66,19 +69,23 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public boolean updateBook(BookDTO bookDTO) {
-        final int bookIndex = findBookIndex(bookDTO.getBookId());
+    public void updateBook(BookDTO bookDTO) throws BookServiceException {
+        final String bookId = bookDTO.getBookId();
+        final int bookIndex = findBookIndex(bookId);
 
         if (bookIndex == -1) {
-            return false;
+            throw new BookServiceException("No book found with id " + bookId + ". Update failed.");
         }
 
         books.set(bookIndex, bookDTO);
-        return true;
     }
 
     @Override
-    public boolean deleteBookById(String bookId) {
-        return books.removeIf(bookDTO -> bookDTO.getBookId().equals(bookId));
+    public void deleteBookById(String bookId) throws BookServiceException {
+        final boolean removed = books.removeIf(bookDTO -> bookDTO.getBookId().equals(bookId));
+
+        if (!removed) {
+            throw new BookServiceException("No book found with id " + bookId + ". Deletion failed.");
+        }
     }
 }
