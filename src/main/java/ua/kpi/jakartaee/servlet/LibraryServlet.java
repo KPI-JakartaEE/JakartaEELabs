@@ -1,4 +1,4 @@
-﻿package ua.kpi.jakartaee.servlet;
+package ua.kpi.jakartaee.servlet;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
