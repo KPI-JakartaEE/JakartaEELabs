@@ -20,9 +20,6 @@
         <h2>Додати нову книгу</h2>
         <form method="post" action="admin">
             <label>
-                <input type="text" name="bookId" placeholder="ID книги" required/>
-            </label>
-            <label>
                 <input type="text" name="title" placeholder="Назва" required/>
             </label>
             <label>
