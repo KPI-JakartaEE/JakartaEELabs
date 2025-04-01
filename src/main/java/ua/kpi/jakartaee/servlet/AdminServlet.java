@@ -1,6 +1,8 @@
 package ua.kpi.jakartaee.servlet;
 
 import jakarta.annotation.security.RolesAllowed;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,8 +17,8 @@ import java.util.List;
 @WebServlet("/admin")
 @RolesAllowed("ADMIN")
 public class AdminServlet extends HttpServlet {
-
-    //    @Inject
+    @Inject
+    @Named("bookServiceImpl")
     private BookService bookService;
 
     @Override
