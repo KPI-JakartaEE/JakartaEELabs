@@ -10,9 +10,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.dto.BookDTO;
 import ua.kpi.jakartaee.service.BookService;
+import ua.kpi.jakartaee.service.HttpRequestProcessor;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.Arrays;
 
 @WebServlet("/admin")
 @RolesAllowed("ADMIN")
@@ -20,6 +21,10 @@ public class AdminServlet extends HttpServlet {
     @Inject
     @Named("bookServiceImpl")
     private BookService bookService;
+
+    @Inject
+    @Named("adminRequestProcessor")
+    private HttpRequestProcessor httpRequestProcessor;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,46 +35,15 @@ public class AdminServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            bookService.addBook(BookDTO
-                    .builder()
-                    .title(req.getParameter("title"))
-                    .author(req.getParameter("author"))
-                    .genre(req.getParameter("genre"))
-                    .keywords(List.of(req.getParameterValues("keywords")))
-                    .description(req.getParameter("description"))
-                    .build());
-        } catch (Exception e) {
-            req.setAttribute("errorMessage", e.getMessage());
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        req.setAttribute("books", bookService.getBooks());
-        req.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            bookService.updateBook(BookDTO
+            httpRequestProcessor.process(req, resp, req.getParameter("_method"), BookDTO
                     .builder()
                     .bookId(req.getParameter("bookId"))
                     .title(req.getParameter("title"))
                     .author(req.getParameter("author"))
                     .genre(req.getParameter("genre"))
-                    .keywords(List.of(req.getParameterValues("keywords")))
+                    .keywords(Arrays.asList(req.getParameterValues("keywords")))
                     .description(req.getParameter("description"))
                     .build());
-        } catch (Exception e) {
-            req.setAttribute("errorMessage", e.getMessage());
-            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-        req.setAttribute("books", bookService.getBooks());
-        req.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            bookService.deleteBookById(req.getParameter("bookId"));
         } catch (Exception e) {
             req.setAttribute("errorMessage", e.getMessage());
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);

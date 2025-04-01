@@ -8,12 +8,19 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class BookDTO {
+public class BookDTO implements RequestData {
     private String bookId;
     private final String title;
     private final String author;
     private final String genre;
-    private final List<String> keywords;
+    private List<String> keywords;
     private final String description;
-    private final String publicationDate;
+
+    public BookDTO(String title, String author, String genre, List<String> keywords, String description) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.keywords = keywords;
+        this.description = description;
+    }
 }
