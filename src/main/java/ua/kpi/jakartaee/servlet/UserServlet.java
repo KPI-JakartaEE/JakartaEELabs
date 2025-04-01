@@ -4,7 +4,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.exceptions.PageNotFoundException;
@@ -15,8 +14,7 @@ import ua.kpi.jakartaee.service.UserService;
 import java.io.IOException;
 
 @WebServlet("/team/members/*")
-public class UserServlet extends HttpServlet {
-
+public class UserServlet extends Utf8HttpServlet {
     @Inject
     @Named("userServiceImpl")
     private UserService userService;
