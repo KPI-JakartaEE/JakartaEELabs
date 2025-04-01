@@ -43,6 +43,7 @@ public class AdminServlet extends HttpServlet {
             req.setAttribute("errorMessage", e.getMessage());
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+        req.setAttribute("books", bookService.getBooks());
         req.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(req, resp);
     }
 
@@ -62,6 +63,7 @@ public class AdminServlet extends HttpServlet {
             req.setAttribute("errorMessage", e.getMessage());
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+        req.setAttribute("books", bookService.getBooks());
         req.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(req, resp);
     }
 
@@ -73,6 +75,7 @@ public class AdminServlet extends HttpServlet {
             req.setAttribute("errorMessage", e.getMessage());
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+        req.setAttribute("books", bookService.getBooks());
         req.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(req, resp);
     }
 }
