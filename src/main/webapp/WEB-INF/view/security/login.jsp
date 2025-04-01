@@ -36,6 +36,7 @@
                 </label>
             </div>
             <input type="submit" value="Login" class="login-btn">
+            <a class="home-btn" href="${pageContext.request.contextPath}/">Home</a>
         </form>
     </div>
 </div>

@@ -42,6 +42,24 @@
             text-align: center;
         }
 
+        .auth-failure-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 10px 20px;
+
+            background-color: #a9c0c6;
+            border-radius: 40px;
+
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-failure::selection {
+            background-color: #2d312fbf;
+            color: rgb(230, 231, 231);
+        }
+
         .back-to-btn {
             display: flex;
             align-items: center;
@@ -60,7 +78,7 @@
             text-decoration: none;
 
             transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-            box-shadow: 0px 2px 0px #161f1d;
+            box-shadow: 0 2px 0 #161f1d;
 
             cursor: pointer;
         }
@@ -73,7 +91,7 @@
 
         .back-to-btn:active {
             transform: translateY(5px);
-            box-shadow: 0px 5px 0px #161f1d;
+            box-shadow: 0 5px 0 #161f1d;
         }
 
         .back-to-btn:visited {
@@ -85,13 +103,24 @@
             cursor: pointer;
 
             text-decoration: none;
+
+            transform: translateY(-1px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 550px) {
+            .auth-failure {
+                font-size: 40px;
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="auth-failure-container">
-    <div class="auth-failure">Unauthorized Access</div>
+    <div class="auth-failure">
+        <div class="auth-failure-box">Access Denied</div>
+    </div>
     <a class="back-to-btn" href="/login">Login</a>
     <a class="back-to-btn" href="/">Back to main page</a>
 </div>

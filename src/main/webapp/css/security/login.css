@@ -70,3 +70,15 @@ body {
     transform: scale(1.02);
 }
 
+.home-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 20px;
+}
+
+.home-btn:active, .home-btn:visited {
+    color: #818c94;
+}
+
