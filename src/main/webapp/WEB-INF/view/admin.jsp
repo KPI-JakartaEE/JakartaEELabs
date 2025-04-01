@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%--<jsp:useBean id="books" scope="request" type="java.util.List"/>--%>
+<jsp:useBean id="books" scope="request" type="java.util.List"/>
 
 <!DOCTYPE html>
 <html>
@@ -15,6 +15,31 @@
 <body>
 <div class="container">
     <h1>Admin page</h1>
+
+    <div class="add-book">
+        <h2>Додати нову книгу</h2>
+        <form method="post" action="admin">
+            <label>
+                <input type="text" name="bookId" placeholder="ID книги" required/>
+            </label>
+            <label>
+                <input type="text" name="title" placeholder="Назва" required/>
+            </label>
+            <label>
+                <input type="text" name="author" placeholder="Автор" required/>
+            </label>
+            <label>
+                <input type="text" name="genre" placeholder="Жанр" required/>
+            </label>
+            <label>
+                <input type="text" name="keywords" placeholder="Ключові слова (через кому)" required/>
+            </label>
+            <label>
+                <textarea name="description" placeholder="Опис" required></textarea>
+            </label>
+            <button type="submit" name="action" value="add">Додати книгу</button>
+        </form>
+    </div>
 
     <div class="book-list">
 
@@ -39,31 +64,26 @@
 
                 <form method="post" action="admin">
                     <input type="hidden" name="bookId" value="${book.bookId}"/>
-                    <input type="text" name="title" value="${book.title}" required/>
-                    <input type="text" name="author" value="${book.author}" required/>
-                    <input type="text" name="genre" value="${book.genre}" required/>
-                    <input type="text" name="keywords" value="${book.keywords}" required/>
-                    <textarea name="description" required>${book.description}</textarea>
+                    <label>
+                        <input type="text" name="title" value="${book.title}" required/>
+                    </label>
+                    <label>
+                        <input type="text" name="author" value="${book.author}" required/>
+                    </label>
+                    <label>
+                        <input type="text" name="genre" value="${book.genre}" required/>
+                    </label>
+                    <label>
+                        <input type="text" name="keywords" value="${book.keywords}" required/>
+                    </label>
+                    <label>
+                        <textarea name="description" required>${book.description}</textarea>
+                    </label>
                     <button type="submit" name="action" value="edit">Редагувати</button>
                 </form>
             </div>
         </c:forEach>
 
-    </div>
-
-
-
-    <div class="add-book">
-        <h2>Додати нову книгу</h2>
-        <form method="post" action="admin">
-            <input type="text" name="bookId" placeholder="ID книги" required/>
-            <input type="text" name="title" placeholder="Назва" required/>
-            <input type="text" name="author" placeholder="Автор" required/>
-            <input type="text" name="genre" placeholder="Жанр" required/>
-            <input type="text" name="keywords" placeholder="Ключові слова (через кому)" required/>
-            <textarea name="description" placeholder="Опис" required></textarea>
-            <button type="submit" name="action" value="add">Додати книгу</button>
-        </form>
     </div>
 </div>
 </body>

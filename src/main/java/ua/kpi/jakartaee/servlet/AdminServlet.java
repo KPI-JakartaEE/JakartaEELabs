@@ -22,6 +22,7 @@ public class AdminServlet extends Utf8HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setAttribute("books", bookService.getBooks());
         req.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(req, resp);
     }
 

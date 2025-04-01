@@ -133,3 +133,10 @@ input[type="text"], textarea {
 .add-button:hover {
     background-color: #2980b9;
 }
+
+textarea {
+    resize: vertical;
+    width: 100%;
+    min-height: 100px;
+    max-height: 300px;
+}

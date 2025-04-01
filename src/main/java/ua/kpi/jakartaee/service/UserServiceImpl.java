@@ -15,7 +15,7 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Inject
-    @Named("userRepositoryInCodeImpl")
+    @Named("userRepositoryJSONImpl")
     private UserRepository userRepository;
 
     @Override

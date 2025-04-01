@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
-@Named("userRepositoryInCodeImpl")
-public class UserRepositoryInCodeImpl implements UserRepository {
+@Named("userRepositoryJSONImpl")
+public class UserRepositoryJSONImpl implements UserRepository {
 
     private final List<User> users = new ArrayList<>();
 
-    public UserRepositoryInCodeImpl() {
+    public UserRepositoryJSONImpl() {
         ObjectMapper objectMapper = new ObjectMapper();
         try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream("users-db.json")) {
             if (inputStream != null) {

@@ -12,7 +12,7 @@ public class LoginServlet extends Utf8HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getUserPrincipal() != null) {
-            resp.sendRedirect("/ROOT/");
+            resp.sendRedirect("/");
         } else {
             req.getRequestDispatcher("/WEB-INF/view/security/login.jsp").forward(req, resp);
         }
@@ -25,7 +25,7 @@ public class LoginServlet extends Utf8HttpServlet {
 
         try {
             req.login(username, password);
-            resp.sendRedirect("/ROOT/admin");
+            resp.sendRedirect("/admin");
         } catch (ServletException e) {
             resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             req.setAttribute("authErrorPresent", true);
