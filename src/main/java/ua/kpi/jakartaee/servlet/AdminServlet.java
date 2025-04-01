@@ -32,7 +32,6 @@ public class AdminServlet extends HttpServlet {
         try {
             bookService.addBook(BookDTO
                     .builder()
-                    .bookId(req.getParameter("bookId"))
                     .title(req.getParameter("title"))
                     .author(req.getParameter("author"))
                     .genre(req.getParameter("genre"))

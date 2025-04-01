@@ -60,7 +60,6 @@
                 </form>
 
                 <form method="post" action="admin">
-                    <input type="hidden" name="bookId" value="${book.bookId}"/>
                     <label>
                         <input type="text" name="title" value="${book.title}" required/>
                     </label>
