@@ -14,10 +14,15 @@
 
 <body>
 <div class="container">
+    <div class="top-nav">
+        <a href="${pageContext.request.contextPath}/">На головну</a>
+    </div>
+
     <h1>Каталог бібліотеки</h1>
 
     <div class="search-section">
-        <form class="search-form" action="${pageContext.request.contextPath}/library/books" method="get" accept-charset="UTF-8">
+        <form class="search-form" action="${pageContext.request.contextPath}/library/books" method="get"
+              accept-charset="UTF-8">
             <div class="search-fields">
                 <div class="field">
                     <label for="author">Пошук за автором:</label>

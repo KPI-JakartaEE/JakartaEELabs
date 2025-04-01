@@ -17,6 +17,21 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.top-nav {
+    text-align: right;
+}
+
+.top-nav a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.top-nav a:hover {
+    color: #0056b3;
+}
+
 h1 {
     color: #333333;
     text-align: center;
@@ -43,6 +58,7 @@ h1 {
 .field {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 5px;
     width: 100%;
 }
