@@ -1,9 +1,6 @@
 package ua.kpi.jakartaee.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -13,9 +10,15 @@ import java.util.List;
 @AllArgsConstructor
 public class BookDTO {
     private String bookId;
+    @Getter
     private String title;
+    @Getter
     private String author;
+    @Getter
     private String genre;
+    @Getter
     private List<String> keywords;
+    @Getter
     private String description;
+    private String publicationDate;
 }
