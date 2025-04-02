@@ -6,7 +6,7 @@ import ua.kpi.jakartaee.dto.HttpRequestType;
 import ua.kpi.jakartaee.exceptions.UnsupportedHttpRequestTypeException;
 
 public interface HttpRequestProcessor<T> {
-    default void process(HttpServletRequest req, HttpServletResponse resp, HttpRequestType httpRequestType, T data) {
+    default void process(HttpServletRequest req, HttpServletResponse resp, HttpRequestType httpRequestType, T data) throws Exception {
         switch (httpRequestType) {
             case POST -> onPost(req, resp, data);
             case PUT -> onPut(req, resp, data);
@@ -14,7 +14,7 @@ public interface HttpRequestProcessor<T> {
             default -> throw new UnsupportedHttpRequestTypeException("Unsupported request type: " + httpRequestType);
         }
     }
-    void onPost(HttpServletRequest req, HttpServletResponse resp, T data);
-    void onPut(HttpServletRequest req, HttpServletResponse resp, T data);
-    void onDelete(HttpServletRequest req, HttpServletResponse resp, T data);
+    void onPost(HttpServletRequest req, HttpServletResponse resp, T data) throws Exception;
+    void onPut(HttpServletRequest req, HttpServletResponse resp, T data) throws Exception;
+    void onDelete(HttpServletRequest req, HttpServletResponse resp, T data) throws Exception;
 }

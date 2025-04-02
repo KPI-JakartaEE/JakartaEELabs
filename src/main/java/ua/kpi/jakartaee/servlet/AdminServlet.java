@@ -25,12 +25,12 @@ public class AdminServlet extends HttpServlet {
     private BookService bookService;
 
     @Inject
+    @Named("adminRequestsProcessor")
     private HttpRequestProcessor<BookDTO> httpRequestProcessor;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("books", bookService.getBooks());
-        req.setAttribute("errorMessage", "");
         req.getRequestDispatcher("/WEB-INF/view/admin.jsp").forward(req, resp);
     }
 
