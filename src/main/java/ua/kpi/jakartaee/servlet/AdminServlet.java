@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.dto.BookDTO;
 import ua.kpi.jakartaee.dto.HttpRequestType;
-import ua.kpi.jakartaee.service.AdminModificationRequestsProcessor;
 import ua.kpi.jakartaee.service.BookService;
+import ua.kpi.jakartaee.service.HttpRequestProcessor;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -25,7 +25,7 @@ public class AdminServlet extends HttpServlet {
     private BookService bookService;
 
     @Inject
-    private AdminModificationRequestsProcessor httpModificationRequestProcessor;
+    private HttpRequestProcessor<BookDTO> httpRequestProcessor;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,7 +38,7 @@ public class AdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             HttpRequestType httpRequestType = HttpRequestType.valueOf(req.getParameter("_method").toUpperCase());
-            httpModificationRequestProcessor.process(req, resp, httpRequestType, BookDTO
+            httpRequestProcessor.process(req, resp, httpRequestType, BookDTO
                     .builder()
                     .bookId(req.getParameter("bookId"))
                     .title(req.getParameter("title"))

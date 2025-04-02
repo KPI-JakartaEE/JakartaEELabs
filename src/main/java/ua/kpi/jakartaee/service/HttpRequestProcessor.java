@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.dto.HttpRequestType;
 import ua.kpi.jakartaee.exceptions.UnsupportedHttpRequestTypeException;
 
-public interface HttpModificationRequestProcessor<T> {
+public interface HttpRequestProcessor<T> {
     default void process(HttpServletRequest req, HttpServletResponse resp, HttpRequestType httpRequestType, T data) {
         switch (httpRequestType) {
             case POST -> onPost(req, resp, data);

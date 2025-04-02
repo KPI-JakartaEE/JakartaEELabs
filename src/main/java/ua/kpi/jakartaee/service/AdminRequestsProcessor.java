@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.dto.BookDTO;
 
 @ApplicationScoped
-public class AdminModificationRequestsProcessor implements HttpModificationRequestProcessor<BookDTO> {
+public class AdminRequestsProcessor implements HttpRequestProcessor<BookDTO> {
 
     @Inject
     @Named("bookServiceImpl")
