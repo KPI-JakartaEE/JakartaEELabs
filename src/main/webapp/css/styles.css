@@ -341,7 +341,7 @@ main ::selection {
     text-decoration: none;
 
     transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
-    box-shadow: 0px 2px 0px #161f1d;
+    box-shadow: 0 2px 0 #161f1d;
 }
 
 .visit-button::selection {
@@ -351,7 +351,7 @@ main ::selection {
 
 .visit-button:active {
     transform: translateY(5px);
-    box-shadow: 0px 5px 0px #161f1d;
+    box-shadow: 0 5px 0 #161f1d;
 }
 
 .visit-button:visited {
@@ -365,6 +365,68 @@ main ::selection {
     text-decoration: none;
 }
 
+.library-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 800px;
+    width: 100%;
+
+    background-image: linear-gradient(to right, #a1a182, #38617b);
+}
+
+.library-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+
+    height: 90%;
+    width: 90%;
+}
+
+.library-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 400px;
+    width: auto;
+}
+
+.library-navigation-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    height: 200px;
+    width: 90%;
+
+    border-radius: 5px;
+
+    background-color:#1e25249f;
+}
+
+.library-button {
+    transition: transform 0.3s ease;
+    height: 60px;
+}
+
+.library-button:hover {
+    opacity: 0.9;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);
+}
+
+.section-divider {
+    border: none;
+    background-color: #4e5856c5;
+
+    height: 4px;
+    width: 100%;
+
+    border-radius: 5px;
+}
 
 footer {
     display: flex;
@@ -462,11 +524,24 @@ footer ::selection {
     .team-member {
         font-size: 15px;
     }
+
+    .library-section {
+        height: 1000px;
+    }
+
+    .library-navigation-menu {
+        height: 400px;
+        flex-direction: column;
+    }
 }
 
 @media (max-width: 600px) {
     .member-item {
         width: 450px;
+    }
+
+    .library-logo {
+        height: 300px;
     }
 }
 

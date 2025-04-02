@@ -13,7 +13,6 @@ import java.io.IOException;
  */
 @WebServlet("/rickroll")
 public class RickRollServlet extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         final String ATTRIBUTE = "rickroll";

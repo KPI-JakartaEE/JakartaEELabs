@@ -15,11 +15,9 @@ import java.util.List;
 
 @WebServlet("")
 public class ApplicationServlet extends HttpServlet {
-
     @Inject
     @Named("userServiceImpl")
     private UserService userService;
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

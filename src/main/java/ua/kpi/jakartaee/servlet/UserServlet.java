@@ -16,7 +16,6 @@ import java.io.IOException;
 
 @WebServlet("/team/members/*")
 public class UserServlet extends HttpServlet {
-
     @Inject
     @Named("userServiceImpl")
     private UserService userService;
