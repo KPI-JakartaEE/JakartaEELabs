@@ -53,6 +53,7 @@ h1 {
 
 .book-description {
     line-height: 1.5;
+    white-space: pre-wrap;
 }
 
 .book-actions {
@@ -139,4 +140,58 @@ textarea {
     width: 100%;
     min-height: 100px;
     max-height: 300px;
+}
+
+.keywords-input-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trash-icon {
+    height: 20px;
+    width: auto;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.admin-navigation-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    height: 40px;
+}
+
+.admin-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 200px;
+    height: 90%;
+
+    margin: 10px;
+    color: #007bff;
+}
+
+.admin-btn:active, .admin-btn:visited {
+    color: #007bff;
+}
+
+
+.error-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 30px;
+    width: 100%;
+
+    border-radius: 5px;
+
+    font-weight: bold;
+
+    background-color: #fdb6dd;
 }

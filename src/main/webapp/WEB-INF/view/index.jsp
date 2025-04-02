@@ -77,8 +77,8 @@
         <div class="library-navigation-menu">
             <a class="visit-button library-button" href="${pageContext.request.contextPath}/library/books">Library</a>
             <c:choose>
-                <c:when  test="${not empty pageContext.request.userPrincipal}">
-                    <a class="visit-button library-button" href="${pageContext.request.contextPath}/logout">Logout</a>
+                <c:when test="${not empty pageContext.request.userPrincipal}">
+                    <a class="visit-button library-button" href="${pageContext.request.contextPath}/admin">Admin</a>
                 </c:when>
                 <c:otherwise>
                     <a class="visit-button library-button" href="${pageContext.request.contextPath}/login">Login</a>

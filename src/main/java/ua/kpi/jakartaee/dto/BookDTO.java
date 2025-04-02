@@ -1,5 +1,6 @@
 package ua.kpi.jakartaee.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 import java.util.List;
@@ -8,10 +9,16 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class BookDTO implements RequestData {
+public class BookDTO {
+
     private String bookId;
+
+    @NotBlank
     private final String title;
+
+    @NotBlank
     private final String author;
+
     private final String genre;
     private List<String> keywords;
     private final String description;

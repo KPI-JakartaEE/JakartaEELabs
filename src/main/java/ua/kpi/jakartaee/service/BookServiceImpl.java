@@ -36,25 +36,23 @@ public class BookServiceImpl implements BookService {
                 .findFirst().orElse(-1);
     }
 
+    private List<String> filterKeywords(List<String> keywords) {
+        return keywords.stream()
+                .filter(keyword -> keyword != null && !keyword.isBlank())
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void addBook(BookDTO bookDTO) throws BookServiceException {
         // Chance of collision should be zero to none...
         bookDTO.setBookId(UUID.randomUUID().toString());
-
-        bookDTO.setKeywords(bookDTO.getKeywords()
-                .stream()
-                .filter(keyword -> keyword != null && !keyword.isBlank())
-                .collect(Collectors.toList())
-        );
-
-        books.add(bookDTO);
+        bookDTO.setKeywords(filterKeywords(bookDTO.getKeywords()));
+        books.add(0, bookDTO);
     }
 
     @Override
     public List<BookDTO> getBooks() {
-        List<BookDTO> reversedList = new ArrayList<>(books);
-        Collections.reverse(reversedList);
-        return reversedList;
+        return books;
     }
 
     @Override
@@ -87,12 +85,7 @@ public class BookServiceImpl implements BookService {
             throw new BookServiceException("No book found with id " + bookId + ". Update failed.");
         }
 
-        bookDTO.setKeywords(bookDTO.getKeywords()
-                .stream()
-                .filter(keyword -> keyword != null && !keyword.isBlank())
-                .collect(Collectors.toList())
-        );
-
+        bookDTO.setKeywords(filterKeywords(bookDTO.getKeywords()));
         books.set(bookIndex, bookDTO);
     }
 

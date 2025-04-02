@@ -9,16 +9,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin page</title>
+    <link rel="icon" type="image/png"
+          href="https://avatars.githubusercontent.com/u/198439363?s=400&u=41d28b536c7a57d37acefcb97c157bc4b261c4bd&v=4">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/admin.css" type="text/css">
 
     <script>
         function addKeyword(containerId) {
             let container = document.getElementById("keywords-container-" + containerId);
+
+            let label = document.createElement("label");
+            label.classList.add("keywords-input-wrapper");
+
             let input = document.createElement("input");
             input.type = "text";
             input.name = "keywords";
             input.placeholder = "Ключове слово";
-            container.appendChild(input);
+            input.required = true;
+
+            let trashIcon = document.createElement("img");
+            trashIcon.classList.add("trash-icon");
+            trashIcon.src = `${pageContext.request.contextPath}/images/trash-icon.png`;
+            trashIcon.alt = "trash-icon";
+
+            trashIcon.onclick = function() {
+                deleteKeyword(trashIcon);
+            };
+
+            label.appendChild(input);
+            label.appendChild(trashIcon);
+
+            container.appendChild(label);
+        }
+
+        function deleteKeyword(trashIcon) {
+            const label = trashIcon.closest('label');
+
+            if (label) {
+                label.remove();
+            }
         }
     </script>
 
@@ -27,6 +55,14 @@
 <body>
 <div class="container">
     <h1>ADMIN</h1>
+    <div class="admin-navigation-panel">
+        <a class="admin-btn" href="${pageContext.request.contextPath}/">Home</a>
+        <a class="admin-btn" href="${pageContext.request.contextPath}/logout">Logout</a>
+    </div>
+
+    <c:if test="${not empty requestScope.errorMessage}">
+        <div class="error-message">Заповніть поля 'Назва' та 'Автор'</div>
+    </c:if>
 
     <div class="add-book">
         <h2>Додати нову книгу</h2>
@@ -37,7 +73,10 @@
             <label><input type="text" name="genre" placeholder="Жанр" required/></label>
 
             <div id="keywords-container-creation-form">
-                <label><input type="text" name="keywords" placeholder="Ключове слово" required/></label>
+                <label class="keywords-input-wrapper">
+                    <input type="text" name="keywords" placeholder="Ключове слово" required/>
+                    <img onclick="deleteKeyword(this)" class="trash-icon" src="${pageContext.request.contextPath}/images/trash-icon.png" alt="trash-icon">
+                </label>
             </div>
             <p><button type="button" onclick="addKeyword('creation-form')">Додати ключове слово</button></p>
 
@@ -65,24 +104,26 @@
                 <form method="post" action="admin">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="bookId" value="${book.bookId}"/>
-                    <label><input type="hidden" name="keywords" value="${book.keywords}" required/></label>
                     <button type="submit" name="action" value="delete">Видалити</button>
                 </form>
 
                 <form method="post" action="admin">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="bookId" value="${book.bookId}"/>
-                    <label><input type="text" name="title" value="${book.title}"/></label>
-                    <label><input type="text" name="author" value="${book.author}" required/></label>
-                    <label><input type="text" name="genre" value="${book.genre}" required/></label>
+                    <label><input type="text" name="title" placeholder="Назва" value="${book.title}"/></label>
+                    <label><input type="text" name="author" placeholder="Автор" value="${book.author}" required/></label>
+                    <label><input type="text" name="genre" placeholder="Жанр" value="${book.genre}" required/></label>
                     <p>Ключові слова:<p>
                     <div id="keywords-container-${book.bookId}">
                         <c:forEach var="keyword" items="${book.keywords}">
-                            <label><input type="text" name="keywords" placeholder="Ключове слово" value="${keyword}" required/></label>
+                            <label class="keywords-input-wrapper">
+                                <input type="text" name="keywords" placeholder="Ключове слово" value="${keyword}" required/>
+                                <img onclick="deleteKeyword(this)" class="trash-icon" src="${pageContext.request.contextPath}/images/trash-icon.png" alt="trash-icon">
+                            </label>
                         </c:forEach>
                     </div>
                     <p><button type="button" onclick="addKeyword('${book.bookId}')">Додати ключове слово</button></p>
-                    <label><textarea name="description" required>${book.description}</textarea></label>
+                    <label><textarea name="description" placeholder="Опис" required>${book.description}</textarea></label>
                     <button type="submit" name="action" value="edit">Редагувати</button>
                 </form>
             </div>
@@ -90,6 +131,8 @@
 
     </div>
 </div>
+
+<script src="${pageContext.request.contextPath}/js/admin.js"></script>
 </body>
 
 </html>

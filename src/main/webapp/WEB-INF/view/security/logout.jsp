@@ -18,6 +18,7 @@
         <h2>Are you sure you want to logout?</h2>
         <form action="logout" method="post">
             <input type="submit" value="Logout" class="logout-btn">
+            <a class="home-btn" href="${pageContext.request.contextPath}/">Home</a>
         </form>
     </div>
 </div>

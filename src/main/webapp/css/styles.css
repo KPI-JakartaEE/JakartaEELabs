@@ -525,7 +525,12 @@ footer ::selection {
         font-size: 15px;
     }
 
+    .library-section {
+        height: 1000px;
+    }
+
     .library-navigation-menu {
+        height: 400px;
         flex-direction: column;
     }
 }
