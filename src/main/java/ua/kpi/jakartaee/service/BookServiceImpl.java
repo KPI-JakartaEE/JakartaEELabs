@@ -1,5 +1,6 @@
 package ua.kpi.jakartaee.service;
 
+import jakarta.ejb.ConcurrencyManagement;
 import jakarta.ejb.Lock;
 import jakarta.ejb.LockType;
 //import jakarta.inject.Singleton
@@ -16,6 +17,7 @@ import java.util.stream.IntStream;
 
 //@ApplicationScoped
 //@Named("bookServiceImpl")
+//@ConcurrencyManagement
 @Singleton(name = "bookServiceImpl")
 public class BookServiceImpl implements BookService {
     // TODO(Yasnov): Use DB!!! This is not persistent! At least this is thread-safe...
