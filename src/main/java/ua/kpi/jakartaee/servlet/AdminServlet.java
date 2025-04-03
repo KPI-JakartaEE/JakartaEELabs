@@ -1,14 +1,13 @@
 package ua.kpi.jakartaee.servlet;
 
 import jakarta.annotation.security.RolesAllowed;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
+import jakarta.ejb.EJB;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import ua.kpi.jakartaee.dto.BookDTO;
+import ua.kpi.jakartaee.dto.BookDto;
 import ua.kpi.jakartaee.dto.HttpRequestType;
 import ua.kpi.jakartaee.service.BookService;
 import ua.kpi.jakartaee.service.HttpRequestProcessor;
@@ -20,13 +19,12 @@ import java.util.Collections;
 @WebServlet("/admin")
 @RolesAllowed("ADMIN")
 public class AdminServlet extends HttpServlet {
-    @Inject
-    @Named("bookServiceImpl")
+
+    @EJB(beanName = "bookServiceImpl")
     private BookService bookService;
 
-    @Inject
-    @Named("adminRequestsProcessor")
-    private HttpRequestProcessor<BookDTO> httpRequestProcessor;
+    @EJB(beanName = "adminRequestProcessor")
+    private HttpRequestProcessor<BookDto> httpRequestProcessor;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,7 +36,7 @@ public class AdminServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             HttpRequestType httpRequestType = HttpRequestType.valueOf(req.getParameter("_method").toUpperCase());
-            httpRequestProcessor.process(req, resp, httpRequestType, BookDTO
+            httpRequestProcessor.process(req, resp, httpRequestType, BookDto
                     .builder()
                     .bookId(req.getParameter("bookId"))
                     .title(req.getParameter("title"))
