@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
-public class BookDTO {
+public class BookDto {
 
     private String bookId;
 
@@ -23,7 +23,7 @@ public class BookDTO {
     private List<String> keywords;
     private final String description;
 
-    public BookDTO(String title, String author, String genre, List<String> keywords, String description) {
+    public BookDto(String title, String author, String genre, List<String> keywords, String description) {
         this.title = title;
         this.author = author;
         this.genre = genre;
