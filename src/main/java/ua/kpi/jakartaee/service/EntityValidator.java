@@ -1,13 +1,11 @@
 package ua.kpi.jakartaee.service;
 
 import jakarta.ejb.Stateless;
-import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.validation.*;
 
 import java.util.List;
 import java.util.Set;
 
-//@ApplicationScoped
 @Stateless
 public class EntityValidator {
 

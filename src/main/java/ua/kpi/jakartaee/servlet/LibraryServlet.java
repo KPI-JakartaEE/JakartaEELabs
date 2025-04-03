@@ -1,8 +1,6 @@
 package ua.kpi.jakartaee.servlet;
 
 import jakarta.ejb.EJB;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,8 +15,6 @@ import java.util.List;
 @WebServlet("/library/books")
 public class LibraryServlet extends HttpServlet {
 
-//    @Inject
-//    @Named("bookServiceImpl")
     @EJB(beanName = "bookServiceImpl")
     private BookService bookService;
 

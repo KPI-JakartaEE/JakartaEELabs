@@ -2,8 +2,6 @@ package ua.kpi.jakartaee.servlet;
 
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.ejb.EJB;
-import jakarta.inject.Inject;
-import jakarta.inject.Named;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -21,13 +19,10 @@ import java.util.Collections;
 @WebServlet("/admin")
 @RolesAllowed("ADMIN")
 public class AdminServlet extends HttpServlet {
-//    @Inject
-//    @Named("bookServiceImpl")
+
     @EJB(beanName = "bookServiceImpl")
     private BookService bookService;
 
-//    @Inject
-//    @Named("adminRequestProcessor")
     @EJB(beanName = "adminRequestProcessor")
     private HttpRequestProcessor<BookDto> httpRequestProcessor;
 

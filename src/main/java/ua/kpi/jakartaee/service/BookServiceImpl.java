@@ -1,12 +1,8 @@
 package ua.kpi.jakartaee.service;
 
-import jakarta.ejb.ConcurrencyManagement;
 import jakarta.ejb.Lock;
 import jakarta.ejb.LockType;
-//import jakarta.inject.Singleton
 import jakarta.ejb.Singleton;
-import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Named;
 import ua.kpi.jakartaee.dto.BookDto;
 import ua.kpi.jakartaee.exceptions.BookServiceException;
 
@@ -15,10 +11,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-//@ApplicationScoped
-//@Named("bookServiceImpl")
-//@ConcurrencyManagement
-@Singleton(name = "bookServiceImpl")
+@Singleton(name = "bookServiceImpl") // TODO It is better to use @Stateless instead of @Singleton when a proper DB implementation will be used
 public class BookServiceImpl implements BookService {
     // TODO(Yasnov): Use DB!!! This is not persistent! At least this is thread-safe...
     private final List<BookDto> books = new CopyOnWriteArrayList<>();
@@ -50,21 +43,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addBook(BookDto bookDTO) throws BookServiceException {
+    public void addBook(BookDto bookDto) throws BookServiceException {
         // Chance of collision should be zero to none...
-        bookDTO.setBookId(UUID.randomUUID().toString());
-        bookDTO.setKeywords(filterKeywords(bookDTO.getKeywords()));
-        books.add(0, bookDTO);
+        bookDto.setBookId(UUID.randomUUID().toString());
+        bookDto.setKeywords(filterKeywords(bookDto.getKeywords()));
+        books.add(0, bookDto);
     }
 
     @Override
-    @Lock(LockType.READ)
+    @Lock(LockType.READ) // TODO(Hliuza) This Lock won't be needed when DB will be used
     public List<BookDto> getBooks() {
         return books;
     }
 
     @Override
-    @Lock(LockType.READ)
+    @Lock(LockType.READ)  // TODO(Hliuza) This Lock won't be needed when DB will be used
     public List<BookDto> getBooks(String author, String title, String keyword, String genre) {
         // TODO(Yasnov): This is garbage, we should not copy storage each time!
         List<BookDto> filteredBooks = new ArrayList<>(books);
@@ -86,16 +79,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void updateBook(BookDto bookDTO) throws BookServiceException {
-        final String bookId = bookDTO.getBookId();
+    public void updateBook(BookDto bookDto) throws BookServiceException {
+        final String bookId = bookDto.getBookId();
         final int bookIndex = findBookIndex(bookId);
 
         if (bookIndex == -1) {
             throw new BookServiceException("No book found with id " + bookId + ". Update failed.");
         }
 
-        bookDTO.setKeywords(filterKeywords(bookDTO.getKeywords()));
-        books.set(bookIndex, bookDTO);
+        bookDto.setKeywords(filterKeywords(bookDto.getKeywords()));
+        books.set(bookIndex, bookDto);
     }
 
     @Override
