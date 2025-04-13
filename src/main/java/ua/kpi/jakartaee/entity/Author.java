@@ -10,9 +10,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
+@RequiredArgsConstructor
 @NamedQueries({
         @NamedQuery(
                 name = "Author.findAll",
@@ -28,21 +28,29 @@ import java.util.UUID;
         ),
         @NamedQuery(
                 name = "Author.deleteById",
-                query = "DELETE FROM Author a WHERE a.id = :authorId"
+                query = "DELETE FROM Author a WHERE a.id = :id"
+        ),
+        @NamedQuery(
+                name = "Author.countById",
+                query = "SELECT COUNT(a) FROM Author a WHERE a.id = :id"
+        ),
+        @NamedQuery(
+                name = "Author.countByName",
+                query = "SELECT COUNT(a) FROM Author a WHERE a.name = :name"
         )
 })
 @Entity
-@Table(name = "book_authors")
+@Table(name = "authors")
 public class Author {
         @Id
         @GeneratedValue(strategy = GenerationType.UUID)
-        @Column(name = "id", nullable = false, updatable = false)
+        @Column(nullable = false, updatable = false)
         private UUID id;
 
-        @Column(name = "name", nullable = false, unique = true)
+        @Column(nullable = false, unique = true)
         private String name;
 
-        @Column(name = "biography")
+        @Column
         private String biography;
 
         @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)

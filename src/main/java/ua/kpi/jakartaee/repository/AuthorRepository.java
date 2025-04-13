@@ -68,6 +68,8 @@ public interface AuthorRepository {
      * Saves a new author to the database.
      * This method persists the provided {@link Author} entity into the database.
      * If the author already exists (based on primary key), it will be updated.
+     * <p>
+     * This method can be used to save entity as well. As a result returns entity in the managed state (entity is in persistence context)
      *
      * @param author the {@link Author} entity to be saved
      */
@@ -88,8 +90,12 @@ public interface AuthorRepository {
      * {@link Author} entity from the database. The entity is identified
      * by the provided ID.
      *
-     * @param authorId the UUID of the {@link Author} to be deleted
+     * @param id the UUID of the {@link Author} to be deleted
      * @return the number of entities updated (1 if successful, 0 if no entity with the given ID was found)
      */
-    int deleteById(UUID authorId);
+    int deleteById(UUID id);
+
+
+    boolean existsById(UUID authorId);
+    boolean existsByName(String name);
 }

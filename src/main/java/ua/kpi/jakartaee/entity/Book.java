@@ -11,9 +11,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
 @Builder
 @AllArgsConstructor
+@RequiredArgsConstructor
 @NamedQueries({
         @NamedQuery(
                 name = "Book.findAll",
@@ -61,7 +61,7 @@ import java.util.UUID;
 
         @NamedQuery(
                 name = "Book.deleteById",
-                query = "DELETE FROM Book b WHERE b.id = :bookId"
+                query = "DELETE FROM Book b WHERE b.id = :id"
         ),
 
         @NamedQuery(
@@ -76,6 +76,23 @@ import java.util.UUID;
                         b.genre LIKE :genre AND
                         k LIKE :keyword
                         """
+        ),
+
+        @NamedQuery(
+                name = "Book.countById",
+                query = "SELECT COUNT(b) FROM Book b WHERE b.id = :id"
+        ),
+        @NamedQuery(
+                name = "Book.countByTitle",
+                query = "SELECT COUNT(b) FROM Book b WHERE b.title = :title"
+        ),
+        @NamedQuery(
+                name = "Book.countByTitleAndAuthorId",
+                query = "SELECT COUNT(b) FROM Book b WHERE b.title = :title AND b.author.id = :authorId"
+        ),
+        @NamedQuery(
+                name = "Book.countByTitleAndAuthorName",
+                query = "SELECT COUNT(b) FROM Book b WHERE b.title = :title AND b.author.name = :authorName"
         )
 })
 @Entity
@@ -83,13 +100,13 @@ import java.util.UUID;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "id")
+    @Column
     private UUID id;
 
-    @Column(name = "title", nullable = false)
+    @Column(nullable = false)
     private String title;
 
-    @Column(name = "genre")
+    @Column
     private String genre;
 
     // TODO: Produces duplicates. Maybe just store List<String> as a concatenated String?
@@ -99,7 +116,7 @@ public class Book {
     private List<String> keywords;
 
     // Let`s give it enough length to hold any reasonable text.
-    @Column(name = "description", length = 4096)
+    @Column(length = 4096)
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -112,16 +129,6 @@ public class Book {
         this.genre = bookDto.getGenre();
         this.keywords = bookDto.getKeywords();
         this.description = bookDto.getDescription();
-    }
-
-    public BookDto toBookDto() {
-        return new BookDto(
-                title,
-                author.getName(),
-                genre,
-                keywords,
-                description
-        );
     }
 
     @Override

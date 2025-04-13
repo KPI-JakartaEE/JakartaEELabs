@@ -34,7 +34,7 @@ public class BookServiceImpl implements BookService {
         // TODO: Page number and size should be received from UI.
         for (Book book : bookRepository.getBooksWithPagination(1024, 1024))
         {
-            books.add(book.toBookDto());
+//            books.add(book.toBookDto());
         }
         return books;
     }
@@ -45,7 +45,7 @@ public class BookServiceImpl implements BookService {
         // TODO: Kinda broken...
         for (Book book : bookRepository.findBooksFilteredByFields(author, title, keyword, genre))
         {
-            books.add(book.toBookDto());
+//            books.add(book.toBookDto());
         }
         return books;
     }

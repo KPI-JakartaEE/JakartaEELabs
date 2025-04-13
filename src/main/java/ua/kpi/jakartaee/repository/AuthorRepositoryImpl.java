@@ -77,9 +77,25 @@ public class AuthorRepositoryImpl implements AuthorRepository {
      * The removal of the {@link Author} entity is done via a named query.
      */
     @Override
-    public int deleteById(UUID authorId) {
+    public int deleteById(UUID id) {
         return em.createNamedQuery("Author.deleteById")
-                .setParameter("authorId", authorId)
+                .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    @Override
+    public boolean existsById(UUID id) {
+        Long count = em.createNamedQuery("Author.countById", Long.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        return count > 0;
+    }
+
+    @Override
+    public boolean existsByName(String name) {
+        Long count = em.createNamedQuery("Author.countByName", Long.class)
+                .setParameter("name", name)
+                .getSingleResult();
+        return count > 0;
     }
 }

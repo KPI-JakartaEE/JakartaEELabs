@@ -1,6 +1,7 @@
 package ua.kpi.jakartaee.repository;
 
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.NamedQuery;
 import ua.kpi.jakartaee.entity.Book;
 
 
@@ -150,10 +151,10 @@ public interface BookRepository {
      * The method returns the number of entities deleted. If no entities are deleted (i.e., the
      * provided ID does not exist in the database), the method will return 0.
      *
-     * @param bookId the ID of the {@link Book} entity to be deleted
+     * @param id the ID of the {@link Book} entity to be deleted
      * @return the number of entities deleted (1 if successful, 0 if no entity with the given ID was found)
      */
-    int deleteById(UUID bookId);
+    int deleteById(UUID id);
 
     /**
      * Retrieves a paginated list of books.
@@ -191,4 +192,9 @@ public interface BookRepository {
             String genre,
             String keyword
     );
+
+    boolean existsById(UUID id);
+    boolean existsByTitle(String title);
+    boolean existsByTitleAndAuthorId(String title, UUID authorId);
+    boolean existsByTitleAndAuthorName(String title, String authorName);
 }

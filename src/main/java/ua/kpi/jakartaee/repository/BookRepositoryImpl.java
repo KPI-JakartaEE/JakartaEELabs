@@ -209,13 +209,13 @@ public class BookRepositoryImpl implements BookRepository {
     /**
      * {@inheritDoc}
      * <p>
-     * This method uses a named query to delete the {@link Book} with the given {@code bookId}.
-     * If the {@code bookId} is not found, no rows will be affected in the database.
+     * This method uses a named query to delete the {@link Book} with the given {@code id}.
+     * If the {@code id} is not found, no rows will be affected in the database.
      */
     @Override
-    public int deleteById(UUID bookId) {
+    public int deleteById(UUID id) {
         return em.createNamedQuery("Book.deleteById")
-                .setParameter("bookId", bookId)
+                .setParameter("id", id)
                 .executeUpdate();
     }
 
@@ -245,6 +245,47 @@ public class BookRepositoryImpl implements BookRepository {
         return query.getResultList();
     }
 
+    @Override
+    public boolean existsById(UUID id) {
+        Long count = em.createNamedQuery("Book.countById", Long.class)
+                .setParameter("id", id)
+                .getSingleResult();
+        return count > 0;
+    }
+
+    @Override
+    public boolean existsByTitle(String title) {
+        Long count = em.createNamedQuery("Book.countByTitle", Long.class)
+                .setParameter("title", title)
+                .getSingleResult();
+        return count > 0;
+    }
+
+    @Override
+    public boolean existsByTitleAndAuthorId(String title, UUID authorId) {
+        Long count = em.createNamedQuery("Book.countByTitleAndAuthorId", Long.class)
+                .setParameter("title", title)
+                .setParameter("authorId", authorId)
+                .getSingleResult();
+        return count > 0;
+    }
+
+    @Override
+    public boolean existsByTitleAndAuthorName(String title, String authorName) {
+        Long count = em.createNamedQuery("Book.countByTitleAndAuthorName", Long.class)
+                .setParameter("title", title)
+                .setParameter("authorName", authorName)
+                .getSingleResult();
+        return count > 0;
+    }
+
+
+    // Do not understand why we need to sync author.
+    // If book will be in transaction (a.k.a in managed state) then we can get author from DB just by calling book.getAuthor()
+    // Default fetch type for @ManyToOne(cascade = CascadeType.ALL) is EAGER
+    // JPA should access the DB automatically when it sees: book.getAuthor()
+    // If it is not in managed state (a.k.a in transaction) then service should make another call
+    // But it is most probably in transaction if we use EJB beans like @Stateless etc.
     /**
      * Synchronizes Book`s author with DB to be unique.
      * @param book for which to sync author.
