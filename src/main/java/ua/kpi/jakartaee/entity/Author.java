@@ -3,11 +3,16 @@ package ua.kpi.jakartaee.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
         @NamedQuery(
@@ -31,13 +36,36 @@ import lombok.*;
 @Table(name = "book_authors")
 public class Author {
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Long id;
+        @GeneratedValue(strategy = GenerationType.UUID)
+        @Column(name = "id", nullable = false, updatable = false)
+        private UUID id;
 
-        @Column(nullable = false, unique = true)
+        @Column(name = "name", nullable = false, unique = true)
         private String name;
+
+        @Column(name = "biography")
+        private String biography;
+
+        @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+        @ToString.Exclude
+        private List<Book> books;
 
         public Author(String name) {
                 this.name = name;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+                if (this == o) return true;
+                if (o == null || getClass() != o.getClass()) return false;
+                Author author = (Author) o;
+                return Objects.equals(id, author.id) &&
+                        Objects.equals(name, author.name) &&
+                        Objects.equals(biography, author.biography);
+        }
+
+        @Override
+        public int hashCode() {
+                return Objects.hash(id, name, biography);
         }
 }
