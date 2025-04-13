@@ -3,20 +3,18 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
-    <persistence-unit name="default">
-<!--        This is the name of the JDBC resource created at localhost:4848 so this is definitely needed -->
+    <persistence-unit name="default" transaction-type="JTA">
         <jta-data-source>jdbc/postgres</jta-data-source>
-
-<!--        Just in case. Most probably these are useless properties and will be deleted because all these properties are already configured at localhost:4848  -->
-<!--        <properties>-->
-<!--            <property name="jakarta.persistence.schema-generation.database.action" value="none"/>-->
-<!--            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>-->
-<!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres"/>-->
-<!--            <property name="jakarta.persistence.jdbc.user" value="postgres"/>-->
-<!--            <property name="jakarta.persistence.jdbc.password" value="postgres"/>-->
-
+<!--    Why the hell this needs to be first configured in Glassfish admin and then duplicated here... -->
+        <properties>
+<!--        Drop and recreate on start. Useful until schema is established -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/JakartaEELabsDB/JakartaEELabs"/>
+            <property name="jakarta.persistence.jdbc.user" value="admin"/>
+            <property name="jakarta.persistence.jdbc.password" value="admin"/>
 <!--        May be useful for debugging to see SQL commands when writing data to DB -->
 <!--            <property name="eclipselink.logging.level" value="FINE"/>-->
-<!--        </properties>-->
+        </properties>
     </persistence-unit>
 </persistence>
