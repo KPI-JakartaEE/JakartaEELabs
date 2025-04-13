@@ -12,7 +12,6 @@ import java.util.UUID;
 @ToString
 @RequiredArgsConstructor
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
         @NamedQuery(
