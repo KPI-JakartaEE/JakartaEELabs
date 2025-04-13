@@ -1,8 +1,14 @@
 package ua.kpi.jakartaee.entity;
 
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
+import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
 @NamedQueries({
         @NamedQuery(
                 name = "Author.findAll",
@@ -21,6 +27,17 @@ import jakarta.persistence.NamedQuery;
                 query = "DELETE FROM Author a WHERE a.id = :authorId"
         )
 })
+@Entity
+@Table(name = "book_authors")
 public class Author {
-    // TODO to be implemented
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
+
+        @Column(nullable = false, unique = true)
+        private String name;
+
+        public Author(String name) {
+                this.name = name;
+        }
 }

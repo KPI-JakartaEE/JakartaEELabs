@@ -2,6 +2,7 @@ package ua.kpi.jakartaee.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ua.kpi.jakartaee.dto.BookDto;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,7 +13,6 @@ import java.util.UUID;
 @ToString
 @RequiredArgsConstructor
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 @NamedQueries({
         @NamedQuery(
@@ -66,8 +66,10 @@ import java.util.UUID;
 
         @NamedQuery(
                 name = "Book.findBooksFilteredByAllFields",
+                // TODO: Maybe DISTINCT is not needed here...
+                // TODO: Without it we get each row repeated keywords number times...
                 query = """
-                        SELECT b FROM Book b JOIN b.keywords k
+                        SELECT DISTINCT b FROM Book b JOIN b.keywords k
                         WHERE
                         b.title LIKE :title AND
                         b.author.name LIKE :authorName AND
@@ -90,17 +92,37 @@ public class Book {
     @Column(name = "genre")
     private String genre;
 
+    // TODO: Produces duplicates. Maybe just store List<String> as a concatenated String?
     @ElementCollection
     @CollectionTable(name = "book_keywords", joinColumns = @JoinColumn(name = "book_id"))
     @Column(name = "keyword")
     private List<String> keywords;
 
-    @Column(name = "description")
+    // Let`s give it enough length to hold any reasonable text.
+    @Column(name = "description", length = 4096)
     private String description;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
     private Author author;
+
+    public Book(BookDto bookDto) {
+        this.title = bookDto.getTitle();
+        this.author = new Author(bookDto.getAuthor());
+        this.genre = bookDto.getGenre();
+        this.keywords = bookDto.getKeywords();
+        this.description = bookDto.getDescription();
+    }
+
+    public BookDto toBookDto() {
+        return new BookDto(
+                title,
+                author.getName(),
+                genre,
+                keywords,
+                description
+        );
+    }
 
     @Override
     public boolean equals(Object o) {
