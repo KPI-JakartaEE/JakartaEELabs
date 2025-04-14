@@ -114,16 +114,6 @@ public class Book {
         this.description = bookDto.getDescription();
     }
 
-    public BookDto toBookDto() {
-        return new BookDto(
-                title,
-                author.getName(),
-                genre,
-                keywords,
-                description
-        );
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
