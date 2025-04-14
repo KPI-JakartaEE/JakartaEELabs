@@ -5,7 +5,7 @@ import jakarta.ejb.Stateless;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.dto.BookDto;
-import ua.kpi.jakartaee.exceptions.BookServiceException;
+import ua.kpi.jakartaee.exceptions.BookNotFoundException;
 
 @Stateless(name = "adminRequestProcessor")
 public class AdminRequestsProcessor implements HttpRequestProcessor<BookDto> {
@@ -17,19 +17,19 @@ public class AdminRequestsProcessor implements HttpRequestProcessor<BookDto> {
     private EntityValidator entityValidator;
 
     @Override
-    public void onPost(HttpServletRequest req, HttpServletResponse resp, BookDto data) throws BookServiceException {
+    public void onPost(HttpServletRequest req, HttpServletResponse resp, BookDto data) {
         entityValidator.validate(data);
         bookService.addBook(data);
     }
 
     @Override
-    public void onPut(HttpServletRequest req, HttpServletResponse resp, BookDto data) throws BookServiceException {
+    public void onPut(HttpServletRequest req, HttpServletResponse resp, BookDto data) {
         entityValidator.validate(data);
         bookService.updateBook(data);
     }
 
     @Override
-    public void onDelete(HttpServletRequest req, HttpServletResponse resp, BookDto data) throws BookServiceException {
+    public void onDelete(HttpServletRequest req, HttpServletResponse resp, BookDto data) throws BookNotFoundException {
         bookService.deleteBookById(req.getParameter("bookId"));
     }
 }

@@ -2,12 +2,12 @@ package ua.kpi.jakartaee.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ua.kpi.jakartaee.dto.BookDto;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+// TODO To many NamesQueries. Consider removing redundant queries in the future
 @Getter
 @Setter
 @ToString
@@ -17,7 +17,7 @@ import java.util.UUID;
 @NamedQueries({
         @NamedQuery(
                 name = "Book.findAll",
-                query = "SELECT b FROM Book b"
+                query = "SELECT b FROM Book b JOIN FETCH b.author ORDER BY b.title ASC"
         ),
         @NamedQuery(
                 name = "Book.findByTitle",
@@ -52,11 +52,16 @@ import java.util.UUID;
 
         @NamedQuery(
                 name = "Book.findByKeyword",
-                query = "SELECT b FROM Book b JOIN b.keywords k WHERE k = :keyword"
+                query = "SELECT b FROM Book b JOIN b.keywords k WHERE k.keyword = :keyword"
         ),
         @NamedQuery(
                 name = "Book.findByKeywordSubstring",
-                query = "SELECT b FROM Book b JOIN b.keywords k WHERE k LIKE :keyword"
+                query = "SELECT b FROM Book b JOIN b.keywords k WHERE k.keyword LIKE :keyword"
+        ),
+
+        @NamedQuery(
+                name = "Book.findByTitleAndAuthorName",
+                query = "SELECT b FROM Book b WHERE b.title = :title AND b.author.name = :authorName"
         ),
 
         @NamedQuery(
@@ -66,15 +71,14 @@ import java.util.UUID;
 
         @NamedQuery(
                 name = "Book.findBooksFilteredByAllFields",
-                // TODO: Maybe DISTINCT is not needed here...
-                // TODO: Without it we get each row repeated keywords number times...
                 query = """
                         SELECT DISTINCT b FROM Book b JOIN b.keywords k
                         WHERE
-                        b.title LIKE :title AND
-                        b.author.name LIKE :authorName AND
-                        b.genre LIKE :genre AND
-                        k LIKE :keyword
+                        UPPER(b.title) LIKE UPPER(:title) AND
+                        UPPER(b.author.name) LIKE UPPER(:authorName) AND
+                        UPPER(b.genre) LIKE UPPER(:genre) AND
+                        UPPER(k.keyword) LIKE UPPER(:keyword)
+                        ORDER BY b.title ASC
                         """
         ),
 
@@ -85,6 +89,18 @@ import java.util.UUID;
         @NamedQuery(
                 name = "Book.countByTitle",
                 query = "SELECT COUNT(b) FROM Book b WHERE b.title = :title"
+        ),
+        @NamedQuery(
+                name = "Book.countByAuthor",
+                query = "SELECT COUNT(b) FROM Book b WHERE b.author = :author"
+        ),
+        @NamedQuery(
+                name = "Book.countByAuthorId",
+                query = "SELECT COUNT(b) FROM Book b WHERE b.author.id = :authorId"
+        ),
+        @NamedQuery(
+                name = "Book.countByAuthorName",
+                query = "SELECT COUNT(b) FROM Book b WHERE b.author.name = :authorName"
         ),
         @NamedQuery(
                 name = "Book.countByTitleAndAuthorId",
@@ -109,11 +125,9 @@ public class Book {
     @Column
     private String genre;
 
-    // TODO: Produces duplicates. Maybe just store List<String> as a concatenated String?
-    @ElementCollection
-    @CollectionTable(name = "book_keywords", joinColumns = @JoinColumn(name = "book_id"))
-    @Column(name = "keyword")
-    private List<String> keywords;
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Keyword> keywords;
 
     // Let`s give it enough length to hold any reasonable text.
     @Column(length = 4096)
@@ -123,23 +137,19 @@ public class Book {
     @JoinColumn(name = "author_id", referencedColumnName = "id", nullable = false)
     private Author author;
 
-    public Book(BookDto bookDto) {
-        this.title = bookDto.getTitle();
-        this.author = new Author(bookDto.getAuthor());
-        this.genre = bookDto.getGenre();
-        this.keywords = bookDto.getKeywords();
-        this.description = bookDto.getDescription();
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(id, book.id) && Objects.equals(title, book.title) && Objects.equals(author, book.author) && Objects.equals(genre, book.genre) && Objects.equals(keywords, book.keywords) && Objects.equals(description, book.description);
+        return Objects.equals(id, book.id) &&
+                Objects.equals(title, book.title) &&
+                Objects.equals(author, book.author) &&
+                Objects.equals(genre, book.genre) &&
+                Objects.equals(description, book.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, author, genre, keywords, description);
+        return Objects.hash(id, title, author, genre, description);
     }
 }

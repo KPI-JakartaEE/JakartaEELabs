@@ -8,6 +8,8 @@ import org.flywaydb.core.Flyway;
 
 import javax.sql.DataSource;
 
+// Comment this class if you do not want migration of SQL scripts
+// Maybe you will need to comment dependency in build.gradle
 @Startup
 @Singleton
 public class FlywayConfig {

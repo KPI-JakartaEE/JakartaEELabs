@@ -6,6 +6,7 @@ import jakarta.ejb.TransactionManagement;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import ua.kpi.jakartaee.entity.Author;
+import ua.kpi.jakartaee.entity.Book;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,18 +25,17 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     @PersistenceContext
     private EntityManager em;
 
-
     @Override
-    public Optional<Author> findById(int id) {
+    public Optional<Author> findById(UUID id) {
         return Optional.ofNullable(em.find(Author.class, id));
     }
 
-
     @Override
-    public List<Author> findByName(String name) {
-        return em.createNamedQuery("Author.findByName", Author.class)
+    public Optional<Author> findByName(String name) {
+        List<Author> results = em.createNamedQuery("Author.findByName", Author.class)
                 .setParameter("name", name)
                 .getResultList();
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
     /**
@@ -62,7 +62,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public Optional<Author> update(Author author) {
+    public Optional<Author> saveOrUpdate(Author author) {
         return Optional.ofNullable(em.merge(author));
     }
 

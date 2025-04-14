@@ -9,6 +9,8 @@
 <!--            This does not work. Server is running on localhost -->
 <!--            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/JakartaEELabsDB/JakartaEELabs"/>-->
 
+<!--            Change value to drop-and-create if you want JPA manage creation of the tables-->
+<!--            Do not forget to comment flyway in case using drop-and-create-->
             <property name="jakarta.persistence.schema-generation.database.action" value="none"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/JakartaEELabs"/>
@@ -16,7 +18,7 @@
             <property name="jakarta.persistence.jdbc.password" value="admin"/>
 
 <!--        May be useful for debugging to see SQL commands when writing data to DB -->
-<!--            <property name="eclipselink.logging.level" value="FINE"/>-->
+            <property name="eclipselink.logging.level" value="FINE"/>
         </properties>
     </persistence-unit>
 </persistence>

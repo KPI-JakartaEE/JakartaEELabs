@@ -1,7 +1,7 @@
 package ua.kpi.jakartaee.repository;
 
 import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.NamedQuery;
+import ua.kpi.jakartaee.entity.Author;
 import ua.kpi.jakartaee.entity.Book;
 
 
@@ -115,6 +115,8 @@ public interface BookRepository {
      */
     List<Book> findByKeywordSubstring(String keyword);
 
+    Optional<Book> findByTitleAndAuthorName(String title, String authorName);
+
     /**
      * Saves a {@link Book} entity to the database.
      * If the book entity already exists (has a non-null ID), it will throw an {@link EntityExistsException}.
@@ -135,7 +137,7 @@ public interface BookRepository {
      * @return an {@link Optional} containing the updated {@link Book} entity,
      *         or an empty {@link Optional} if the entity could not be updated
      */
-    Optional<Book> update(Book book);
+    Optional<Book> saveOrUpdate(Book book);
 
     /**
      * Deletes a {@link Book} entity from the database.
@@ -197,4 +199,8 @@ public interface BookRepository {
     boolean existsByTitle(String title);
     boolean existsByTitleAndAuthorId(String title, UUID authorId);
     boolean existsByTitleAndAuthorName(String title, String authorName);
+
+    long countByAuthor(Author author);
+    long countByAuthorId(UUID authorId);
+    long countByAuthorName(String authorName);
 }

@@ -19,13 +19,16 @@ public class BookDto {
     @NotBlank
     private final String author;
 
+    private final String authorId;
+
     private final String genre;
     private List<String> keywords;
     private final String description;
 
-    public BookDto(String title, String author, String genre, List<String> keywords, String description) {
+    public BookDto(String title, String author, String authorId, String genre, List<String> keywords, String description) {
         this.title = title;
         this.author = author;
+        this.authorId = authorId;
         this.genre = genre;
         this.keywords = keywords;
         this.description = description;

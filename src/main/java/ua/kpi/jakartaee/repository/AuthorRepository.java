@@ -26,16 +26,16 @@ public interface AuthorRepository {
      * @param id the ID of the {@link Author} entity to be found
      * @return an {@link Optional} containing the found {@link Author} if present, or {@link Optional#empty()} if no entity was found.
      */
-    Optional<Author> findById(int id);
+    Optional<Author> findById(UUID id);
 
     /**
-     * Finds a list of authors by their name.
-     * This method searches for authors whose name matches the given parameter.
+     * Finds the author by his/her name.
+     * This method searches for author whose name matches the given parameter.
      *
-     * @param name the name of the author(s) to find
+     * @param name the name of the author to find
      * @return a list of {@link Author} entities that match the provided name
      */
-    List<Author> findByName(String name);
+    Optional<Author> findByName(String name);
 
     /**
      * Finds a list of authors whose name contains the specified substring.
@@ -73,7 +73,7 @@ public interface AuthorRepository {
      *
      * @param author the {@link Author} entity to be saved
      */
-    Optional<Author> update(Author author);
+    Optional<Author> saveOrUpdate(Author author);
 
     /**
      * Deletes the specified author from the database.

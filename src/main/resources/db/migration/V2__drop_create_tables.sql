@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS authors;
 CREATE TABLE authors
 (
     id        UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-    name      VARCHAR(255) NOT NULL UNIQUE,
+    name      VARCHAR(255) NOT NULL,
     biography TEXT
 );
 
@@ -15,7 +15,7 @@ CREATE TABLE books
 (
     id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     title       VARCHAR(255) NOT NULL,
-    author_id   UUID         NOT NULL,
+    author_id   UUID,
     genre       VARCHAR(255),
     description TEXT,
     FOREIGN KEY (author_id) REFERENCES authors (id) ON DELETE CASCADE
