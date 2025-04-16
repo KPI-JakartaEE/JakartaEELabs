@@ -41,7 +41,7 @@ public class AdminServlet extends HttpServlet {
                     .bookId(req.getParameter("bookId"))
                     .title(req.getParameter("title"))
                     .author(req.getParameter("author"))
-                    .authorId(req.getParameter("authorId"))
+                    .oldAuthorName(req.getParameter("oldAuthorName"))
                     .genre(req.getParameter("genre"))
                     .keywords(req.getParameterValues("keywords") == null ? Collections.emptyList() : Arrays.asList(req.getParameterValues("keywords")))
                     .description(req.getParameter("description"))

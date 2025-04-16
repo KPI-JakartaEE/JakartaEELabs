@@ -5,6 +5,7 @@ import jakarta.ejb.Stateless;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.dto.BookDto;
+import ua.kpi.jakartaee.exceptions.BookAlreadyExistsException;
 import ua.kpi.jakartaee.exceptions.BookNotFoundException;
 
 @Stateless(name = "adminRequestProcessor")
@@ -17,7 +18,8 @@ public class AdminRequestsProcessor implements HttpRequestProcessor<BookDto> {
     private EntityValidator entityValidator;
 
     @Override
-    public void onPost(HttpServletRequest req, HttpServletResponse resp, BookDto data) {
+    public void onPost(HttpServletRequest req, HttpServletResponse resp, BookDto data) throws BookAlreadyExistsException {
+        data.setOldAuthorName(data.getAuthor());
         entityValidator.validate(data);
         bookService.addBook(data);
     }

@@ -5,6 +5,7 @@ import ua.kpi.jakartaee.dto.BookDto;
 import ua.kpi.jakartaee.dto.BookSearchQuery;
 import ua.kpi.jakartaee.entity.Author;
 import ua.kpi.jakartaee.entity.Book;
+import ua.kpi.jakartaee.exceptions.BookAlreadyExistsException;
 import ua.kpi.jakartaee.exceptions.BookNotFoundException;
 import ua.kpi.jakartaee.repository.AuthorRepository;
 import ua.kpi.jakartaee.repository.BookRepository;
@@ -29,7 +30,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
-    public void addBook(BookDto bookDto) {
+    public void addBook(BookDto bookDto) throws BookAlreadyExistsException {
+        if (bookRepository.existsByTitleAndAuthorName(trimValue(bookDto.getTitle()), trimValue(bookDto.getAuthor()))) {
+            throw new BookAlreadyExistsException("bookDto is already exist");
+        }
         bookRepository.save(bookConvertor.toEntity(bookDto));
     }
 

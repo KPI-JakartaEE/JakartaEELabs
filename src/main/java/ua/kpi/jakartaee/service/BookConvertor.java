@@ -25,6 +25,7 @@ public class BookConvertor implements Convertor<BookDto, Book> {
     public List<String> filterKeywords(List<String> keywords) {
         return keywords.stream()
                 .filter(keyword -> keyword != null && !keyword.isBlank())
+                .distinct()
                 .collect(Collectors.toList());
     }
 
@@ -35,15 +36,15 @@ public class BookConvertor implements Convertor<BookDto, Book> {
      * If author with such id is present in DB he/she is being retrieved, otherwise new author is created
      * Updates author name
      *
-     * @param authorId id of the author to get
-     * @param authorName new or old name of the author
+     * @param oldAuthorName old of the author to get
+     * @param authorName new name of the author
      * @return new or author that is already in DB
      */
-    public Author getOrCreateAuthor(String authorId, String authorName) {
+    public Author getOrCreateAuthor(String oldAuthorName, String authorName) {
         Author author = new Author(authorName);
-        if (authorId != null) {
+        if (oldAuthorName != null) {
             author = authorRepository
-                    .findById(UUID.fromString(authorId))
+                    .findByName(oldAuthorName)
                     .orElse(author);
         }
         author.setName(authorName);
@@ -95,7 +96,7 @@ public class BookConvertor implements Convertor<BookDto, Book> {
         return BookDto.builder()
                 .bookId(book.getId().toString())
                 .title(book.getTitle())
-                .authorId(book.getAuthor().getId().toString())
+                .oldAuthorName(book.getAuthor().getName())
                 .author(book.getAuthor().getName())
                 .genre(book.getGenre())
                 .keywords(keywords)
@@ -115,7 +116,7 @@ public class BookConvertor implements Convertor<BookDto, Book> {
             throw new IllegalArgumentException("bookDto is null");
         }
 
-        Author author = getOrCreateAuthor(bookDto.getAuthorId(), bookDto.getAuthor());
+        Author author = getOrCreateAuthor(bookDto.getOldAuthorName(), bookDto.getAuthor());
         Book book = createOrUpdateBook(bookDto, author);
 
         // Converts keywords from String to Keyword type

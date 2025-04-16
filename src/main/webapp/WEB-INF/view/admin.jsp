@@ -104,14 +104,14 @@
                 <form method="post" action="admin">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="bookId" value="${book.bookId}"/>
-                    <input type="hidden" name="authorId" value="${book.authorId}"/>
+                    <input type="hidden" name="oldAuthorName" value="${book.oldAuthorName}"/>
                     <button type="submit" name="action" value="delete">Видалити</button>
                 </form>
 
                 <form method="post" action="admin">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="bookId" value="${book.bookId}"/>
-                    <input type="hidden" name="authorId" value="${book.authorId}"/>
+                    <input type="hidden" name="oldAuthorName" value="${book.oldAuthorName}"/>
                     <label><input type="text" name="title" placeholder="Назва" value="${book.title}"/></label>
                     <label><input type="text" name="author" placeholder="Автор" value="${book.author}" required/></label>
                     <label><input type="text" name="genre" placeholder="Жанр" value="${book.genre}" required/></label>
