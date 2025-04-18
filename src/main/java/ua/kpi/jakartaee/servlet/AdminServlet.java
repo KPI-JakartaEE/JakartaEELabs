@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.dto.BookDto;
 import ua.kpi.jakartaee.dto.HttpRequestType;
+import ua.kpi.jakartaee.exceptions.ValidationException;
 import ua.kpi.jakartaee.service.BookService;
 import ua.kpi.jakartaee.service.HttpRequestProcessor;
 
@@ -41,13 +42,15 @@ public class AdminServlet extends HttpServlet {
                     .bookId(req.getParameter("bookId"))
                     .title(req.getParameter("title"))
                     .author(req.getParameter("author"))
-                    .oldAuthorName(req.getParameter("oldAuthorName"))
                     .genre(req.getParameter("genre"))
                     .keywords(req.getParameterValues("keywords") == null ? Collections.emptyList() : Arrays.asList(req.getParameterValues("keywords")))
                     .description(req.getParameter("description"))
                     .build());
+        } catch (ValidationException validationException) {
+            req.setAttribute("errorMessage", "Заповніть поля 'Назва' та 'Автор'");
         } catch (Exception e) {
             req.setAttribute("errorMessage", e.getMessage());
+        } finally {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         req.setAttribute("books", bookService.getBooks());

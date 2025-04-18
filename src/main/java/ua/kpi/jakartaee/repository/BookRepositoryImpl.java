@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-// Probably do not need these two annotations: @TransactionManagement and @TransactionAttribute.
-// Their behaviour is applied by default for EJB beans (@Stateless, @Singleton, @Stateful).
+// Do not need these two annotations: @TransactionManagement and @TransactionAttribute.
+// Their behavior is applied by default for EJB beans (@Stateless, @Singleton, @Stateful).
 // If this annotation is not used, the bean is assumed to have container-managed transaction management.
 @TransactionManagement
 // If the TransactionAttribute annotation is not specified, and the bean uses container managed transaction demarcation, the semantics of the REQUIRED transaction attribute are assumed.
@@ -223,6 +223,14 @@ public class BookRepositoryImpl implements BookRepository {
                 .getResultList();
     }
 
+    private TypedQuery<Book> getTypedQueryForBookFiltration(String title, String authorName, String genre, String keyword) {
+        TypedQuery<Book> query = em.createNamedQuery("Book.findBooksFilteredByAllFields", Book.class);
+        query.setParameter("title", "%" + title + "%");
+        query.setParameter("authorName", "%" + authorName + "%");
+        query.setParameter("genre", "%" + genre + "%");
+        query.setParameter("keyword", "%" + keyword + "%");
+        return query;
+    }
 
     @Override
     public List<Book> findBooksFilteredByFields(
@@ -231,11 +239,26 @@ public class BookRepositoryImpl implements BookRepository {
             String genre,
             String keyword
     ) {
-        TypedQuery<Book> query = em.createNamedQuery("Book.findBooksFilteredByAllFields", Book.class);
-        query.setParameter("title", "%" + title + "%");
-        query.setParameter("authorName", "%" + authorName + "%");
-        query.setParameter("genre", "%" + genre + "%");
-        query.setParameter("keyword", "%" + keyword + "%");
+        TypedQuery<Book> query = getTypedQueryForBookFiltration(title, authorName, genre, keyword);
+        return query.getResultList();
+    }
+
+
+    @Override
+    public List<Book> getBooksWithPaginationAndFilteredByFields(
+            String title,
+            String authorName,
+            String genre,
+            String keyword,
+            int pageNumber,
+            int pageSize
+    ) {
+        if (pageNumber < 1 || pageSize < 1) {
+            throw new IllegalArgumentException("Page number and page size must be greater than 0");
+        }
+        TypedQuery<Book> query = getTypedQueryForBookFiltration(title, authorName, genre, keyword);
+        query.setFirstResult((pageNumber - 1) * pageSize);
+        query.setMaxResults(pageSize);
         return query.getResultList();
     }
 

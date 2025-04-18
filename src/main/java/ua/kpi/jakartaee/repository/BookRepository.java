@@ -195,6 +195,15 @@ public interface BookRepository {
             String keyword
     );
 
+    List<Book> getBooksWithPaginationAndFilteredByFields(
+            String title,
+            String authorName,
+            String genre,
+            String keyword,
+            int pageNumber,
+            int pageSize
+    );
+
     boolean existsById(UUID id);
     boolean existsByTitle(String title);
     boolean existsByTitleAndAuthorId(String title, UUID authorId);
