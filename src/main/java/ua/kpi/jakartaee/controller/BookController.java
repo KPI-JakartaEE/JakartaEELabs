@@ -11,7 +11,7 @@ import ua.kpi.jakartaee.service.BookService;
 
 import java.util.Map;
 
-@Path("/api/library/books")
+@Path("/library/books")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class BookController {
