@@ -7,19 +7,19 @@ import java.util.List;
 
 @Data
 @Builder
-@RequiredArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 public class BookDto {
 
     private String bookId;
 
     @NotBlank
-    private final String title;
+    private String title;
 
     @NotBlank
-    private final String author;
+    private String author;
 
-    private final String genre;
+    private String genre;
     private List<String> keywords;
-    private final String description;
+    private String description;
 }
