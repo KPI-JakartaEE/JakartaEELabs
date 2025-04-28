@@ -13,6 +13,7 @@ public interface BookService {
     List<BookDto> getBooksWithPagination(int pageNumber, int pageSize);
     List<BookDto> getBooksWithPaginationAndFiltration(BookSearchQuery bookSearchQuery, int pageNumber, int pageSize);
     void addBook(BookDto bookDto) throws BookAlreadyExistsException;
-    void updateBook(BookDto bookDto) throws BookNotFoundException;
+    void updateBook(BookDto bookDto) throws BookNotFoundException; // Use this for PUT in HTTP
+    public void updateBookPartially(BookDto bookDto) throws BookNotFoundException; // Use this for PATCH in HTTP
     void deleteBookById(String bookId) throws BookNotFoundException;
 }

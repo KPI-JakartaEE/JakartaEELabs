@@ -13,6 +13,7 @@ import ua.kpi.jakartaee.repository.AuthorRepository;
 import ua.kpi.jakartaee.repository.BookRepository;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 @Stateless(name = "bookServiceImpl")
 @TransactionManagement(TransactionManagementType.CONTAINER)
@@ -28,6 +29,23 @@ public class BookServiceImpl implements BookService {
 
     @EJB
     private KeywordService keywordService;
+
+    private boolean checkIfFieldShouldBeModified(String oldValue, String newValue, boolean includeBlankValuesCheck) {
+        if (includeBlankValuesCheck) {
+            return newValue != null && !newValue.isBlank() && !newValue.equals(oldValue);
+        }
+        return newValue != null && !newValue.equals(oldValue);
+    }
+
+    private boolean checkIfFieldShouldBeModified(String oldValue, String newValue) {
+        return checkIfFieldShouldBeModified(oldValue, newValue, false);  // Default to false
+    }
+
+    private <T> void modifyIfChanged(boolean condition, T value, Consumer<T> setterAction) {
+        if (condition) {
+            setterAction.accept(value);  // Set the value if condition is true
+        }
+    }
 
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
@@ -86,6 +104,7 @@ public class BookServiceImpl implements BookService {
 
 
     // Use this in most cases
+
     /**
      * Use this if you want to use both pagination and filtration
      * @param bookSearchQuery dto to filter users
@@ -115,7 +134,7 @@ public class BookServiceImpl implements BookService {
         return booksFromDB.stream().map(bookConvertor::toDto).toList();
     }
 
-
+    // Use this for PUT in HTTP
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void updateBook(BookDto bookDto) throws BookNotFoundException {
@@ -131,6 +150,41 @@ public class BookServiceImpl implements BookService {
         keywords.forEach(keyword -> keyword.setBook(book));
         book.setKeywords(keywords);
         book.setDescription(bookDto.getDescription());
+
+        bookRepository.saveOrUpdate(book);
+
+        // This is for transaction testing
+        if (bookDto.getTitle().equals("Test")) {
+            throw new RuntimeException("All changes in DB should rollback because book title is 'Test'");
+        }
+    }
+
+    // Use this for PATCH in HTTP
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void updateBookPartially(BookDto bookDto) throws BookNotFoundException {
+        Book book = bookRepository.findById(UUID.fromString(bookDto.getBookId()))
+                .orElseThrow(
+                        () -> new BookNotFoundException("Book does not exists")
+                );
+        modifyIfChanged(checkIfFieldShouldBeModified(book.getTitle(), bookDto.getTitle(), true),
+                bookDto.getTitle(), book::setTitle
+        );
+        modifyIfChanged(checkIfFieldShouldBeModified(book.getAuthor().getName(), bookDto.getAuthor(), true),
+                bookDto.getAuthor(), book.getAuthor()::setName
+        );
+        modifyIfChanged(checkIfFieldShouldBeModified(book.getGenre(), bookDto.getGenre()),
+                bookDto.getGenre(), book::setGenre
+        );
+        modifyIfChanged(checkIfFieldShouldBeModified(book.getDescription(), bookDto.getDescription()),
+                bookDto.getDescription(), book::setDescription
+        );
+
+        if (bookDto.getKeywords() != null) {
+            List<Keyword> keywords = keywordService.convertStringsToKeywords(bookDto.getKeywords());
+            keywords.forEach(keyword -> keyword.setBook(book));
+            book.setKeywords(keywords);
+        }
 
         bookRepository.saveOrUpdate(book);
 
