@@ -14,3 +14,7 @@ services:
 
 volumes:
   pg-data:
+
+# If you want to connect to DB via terminal
+# > docker exec -it JakartaEELabsDB /bin/bash
+# > psql -U admin -d JakartaEELabs

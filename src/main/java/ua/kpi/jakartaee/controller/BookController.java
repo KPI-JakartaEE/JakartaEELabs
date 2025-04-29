@@ -76,10 +76,13 @@ public class BookController {
     }
 
     @GET
-    @Path("/get")
-    public Response getBook(@BeanParam BookSearchQuery bookSearchQuery) {
+    public Response getBooks(
+            @BeanParam BookSearchQuery bookSearchQuery,
+            @DefaultValue("1") @QueryParam("page") int pageNumber,
+            @DefaultValue("10") @QueryParam("size") int pageSize
+    ) {
         try {
-            List<BookDto> books = bookService.getBooks(bookSearchQuery);
+            List<BookDto> books = bookService.getBooksWithPaginationAndFiltration(bookSearchQuery, pageNumber, pageSize);
             return Response.status(Response.Status.OK)
                     .entity(Map.of(
                             "success", true,
@@ -94,10 +97,6 @@ public class BookController {
                     .build();
         }
     }
-
-
-
-
 
     @PUT
     @Path("/{id}")
@@ -156,8 +155,4 @@ public class BookController {
                     .build();
         }
     }
-
-
-
-
 }

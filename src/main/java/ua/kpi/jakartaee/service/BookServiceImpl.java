@@ -47,6 +47,13 @@ public class BookServiceImpl implements BookService {
         }
     }
 
+    private void transactionTesting(String title) {
+        // This is for transaction testing
+        if (title != null && title.equals("Test")) {
+            throw new RuntimeException("All changes in DB should rollback because book title is 'Test'");
+        }
+    }
+
     @Override
     @TransactionAttribute(TransactionAttributeType.REQUIRED)
     public void addBook(BookDto bookDto) throws BookAlreadyExistsException {
@@ -117,17 +124,17 @@ public class BookServiceImpl implements BookService {
         List<Book> booksFromDB;
         if (pageNumber < 1 || pageSize < 1) {
             booksFromDB = bookRepository.findBooksFilteredByFields(
-                    StringUtils.trim(bookSearchQuery.getTitle()),
-                    StringUtils.trim(bookSearchQuery.getAuthor()),
-                    StringUtils.trim(bookSearchQuery.getGenre()),
-                    StringUtils.trim(bookSearchQuery.getKeyword())
+                    StringUtils.trimToEmpty(bookSearchQuery.getTitle()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getAuthor()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getGenre()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getKeyword())
             );
         } else {
             booksFromDB = bookRepository.getBooksWithPaginationAndFilteredByFields(
-                    StringUtils.trim(bookSearchQuery.getTitle()),
-                    StringUtils.trim(bookSearchQuery.getAuthor()),
-                    StringUtils.trim(bookSearchQuery.getGenre()),
-                    StringUtils.trim(bookSearchQuery.getKeyword()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getTitle()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getAuthor()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getGenre()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getKeyword()),
                     pageNumber, pageSize
             );
         }
@@ -153,10 +160,7 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.saveOrUpdate(book);
 
-        // This is for transaction testing
-        if (bookDto.getTitle().equals("Test")) {
-            throw new RuntimeException("All changes in DB should rollback because book title is 'Test'");
-        }
+        transactionTesting(bookDto.getTitle());
     }
 
     // Use this for PATCH in HTTP
@@ -188,10 +192,7 @@ public class BookServiceImpl implements BookService {
 
         bookRepository.saveOrUpdate(book);
 
-        // This is for transaction testing
-        if (bookDto.getTitle().equals("Test")) {
-            throw new RuntimeException("All changes in DB should rollback because book title is 'Test'");
-        }
+        transactionTesting(bookDto.getTitle());
     }
 
     @Override
