@@ -5,10 +5,12 @@ import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import ua.kpi.jakartaee.dto.BookDto;
+import ua.kpi.jakartaee.dto.BookSearchQuery;
 import ua.kpi.jakartaee.exceptions.BookAlreadyExistsException;
 import ua.kpi.jakartaee.exceptions.BookNotFoundException;
 import ua.kpi.jakartaee.service.BookService;
 
+import java.util.List;
 import java.util.Map;
 
 @Path("/library/books")
@@ -68,6 +70,26 @@ public class BookController {
                     .entity(Map.of(
                             "success", false,
                             "message", "Failed to delete book: " + e.getMessage()
+                    ))
+                    .build();
+        }
+    }
+
+    @GET
+    @Path("/get")
+    public Response getBook(@BeanParam BookSearchQuery bookSearchQuery) {
+        try {
+            List<BookDto> books = bookService.getBooks(bookSearchQuery);
+            return Response.status(Response.Status.OK)
+                    .entity(Map.of(
+                            "success", true,
+                            "result", books
+                    )).build();
+        } catch (Exception e){
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Map.of(
+                            "success", false,
+                            "message", "Failed to extract books: " + e.getMessage()
                     ))
                     .build();
         }
