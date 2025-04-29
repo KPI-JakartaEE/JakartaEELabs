@@ -1,102 +1,213 @@
 package ua.kpi.jakartaee.service;
 
-import jakarta.ejb.Lock;
-import jakarta.ejb.LockType;
-import jakarta.ejb.Singleton;
+import jakarta.ejb.*;
+import org.apache.commons.lang3.StringUtils;
 import ua.kpi.jakartaee.dto.BookDto;
-import ua.kpi.jakartaee.exceptions.BookServiceException;
+import ua.kpi.jakartaee.dto.BookSearchQuery;
+import ua.kpi.jakartaee.entity.Author;
+import ua.kpi.jakartaee.entity.Book;
+import ua.kpi.jakartaee.entity.Keyword;
+import ua.kpi.jakartaee.exceptions.BookAlreadyExistsException;
+import ua.kpi.jakartaee.exceptions.BookNotFoundException;
+import ua.kpi.jakartaee.repository.AuthorRepository;
+import ua.kpi.jakartaee.repository.BookRepository;
 
 import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.function.Consumer;
 
-@Singleton(name = "bookServiceImpl") // TODO It is better to use @Stateless instead of @Singleton when a proper DB implementation will be used
+@Stateless(name = "bookServiceImpl")
+@TransactionManagement(TransactionManagementType.CONTAINER)
 public class BookServiceImpl implements BookService {
-    // TODO(Yasnov): Use DB!!! This is not persistent! At least this is thread-safe...
-    private final List<BookDto> books = new CopyOnWriteArrayList<>();
+    @EJB
+    private BookRepository bookRepository;
 
-    public BookServiceImpl() throws BookServiceException {
-        // TODO(Yasnov): This is just a stub for demonstration, BookServiceImpl should use proper DB!
-        addBook(new BookDto("Володар перснів", "Джон Р. Р. Толкін", "Епічне фентезі", Arrays.asList("казка", "пригоди", "фентезі"), "Величний твір Дж. P. P. Толкіна поєднує у собі героїчну романтику і наукову фантастику. Це захопливий пригодницький роман і, водночас, сповнена глибокої мудрості книга. Почергово то комічна й домашня, то епічна, а подекуди навіть страхітлива оповідь переходить через нескінченні зміни чудово описаних сцен і характерів. Основою цієї історії є боротьба за Перстень Влади, що випадково потрапив до рук гобіта Більбо Торбина. Саме цього Персня бракує Темному Володареві для того, щоби завоювати увесь світ. Тепер небезпечні пригоди випадають на долю Фродо Торбина, бо йому довірено цей Перстень. Він мусить залишити свій дім і вирушити у небезпечну мандрівку просторами Середзем’я аж до Судної Гори, що розташована в осерді володінь Темного Володаря. Саме там він має знищити Перстень і завадити втіленню лихого задуму."));
-        addBook(new BookDto("Гобіт, або Туди і звідти", "Джон Р. Р. Толкін", "Епічне фентезі", Arrays.asList("казка", "пригоди", "фентезі"), "Головний герой — гобіт Більбо Торбин, який живе спокійним життям у своїй затишній норі в Ширі. Але все змінюється, коли чарівник Ґандальф разом із компанією гномів на чолі з Торіном Дубощитом пропонує йому вирушити в небезпечну подорож. Метою цієї пригоди є далека гора, де гноми хочуть повернути своє втрачене королівство та скарби, захоплені могутнім драконом. На своєму шляху Більбо зустрічає різних істот: доброзичливих і ворожих, розумних і підступних. Йому доводиться проявити кмітливість і мужність, щоб подолати труднощі та відкрити в собі приховані здібності. Книга сповнена чарівних місць, несподіваних поворотів і чудового гумору. Вона досліджує теми дружби, відваги, сили духу та змін, які приходять із пригодами."));
-        addBook(new BookDto("1984", "Джордж Орвелл", "Антиутопія", Arrays.asList("антиутопія", "політика", "соціальне"), "Події розгортаються в уявному майбутньому. Поточний рік невідомий, але вважається, що це 1984. Велика частина світу перебуває у вічній війні. Велика Британія, тепер відома як Airstrip One, стала провінцією тоталітарної наддержави Океанія, яку очолює Великий Брат, диктаторський лідер, який підтримується інтенсивним культом особистості, створеним поліцією думки партії. Партія бере участь у всюдисущому урядовому нагляді та, через Міністерство правди, історичному запереченні та постійній пропаганді переслідування індивідуальності та незалежного мислення. Головний герой, Вінстон Сміт, старанний працівник середньої ланки в Міністерстві правди, який таємно ненавидить партію і мріє про повстання."));
-        addBook(new BookDto("Дюна", "Френк Герберт", "Наукова фантастика", Arrays.asList("роман", "фантастика", "пригоди"), "Дюна розгортається у далекому майбутньому у феодальному міжзоряному суспільстві, що походить від земних людей, у якому різні знатні будинки контролюють планетарні володіння. У ньому розповідається про молодого Пола Атрідеса, чия родина погоджується керувати планетою Арракіс. Хоча планета є негостинною та малонаселеною пустелею, вона є єдиним джерелом меланжу, або «спеції», ліків, які подовжують життя та покращують розумові здібності. Меланж також необхідний для космічної навігації, яка вимагає свого роду багатовимірного усвідомлення та передбачення, яке забезпечує лише препарат. Оскільки меланж можна виробляти лише на Арракісі, контроль над планетою є жаданою та небезпечною справою. Історія досліджує багатошарову взаємодію політики, релігії, екології, технологій і людських емоцій, коли фракції імперії протистоять одна одній у боротьбі за контроль над Арракісом і його спеціями."));
-        addBook(new BookDto("Лев, Біла Відьма та шафа", "Клайв Стейплз Льюїс", "Фентезі", Arrays.asList("роман", "фентезі", "дитяче"), "Це чарівна казка про чотирьох дітей, які відкривають шлях до магічного світу через звичайну шафу. Дія відбувається під час Другої світової війни, коли Пітер, Сьюзен, Едмунд і Люсі потрапляють до маєтку старого професора. Там молодша з них, Люсі, першою знаходить чарівну шафу, яка веде в Нарнію — країну, охоплену вічною зимою через правління злої Білої Відьми. Незабаром і решта дітей опиняється в цьому світі, де вони знайомляться з магічними істотами й дізнаються про великого лева Аслана, єдиного, хто може перемогти темні сили. У книзі поєднуються пригоди, магія, боротьба добра зі злом і важливі життєві уроки про чесність, відвагу та жертовність. Це класична історія, яка залишається популярною серед дітей і дорослих."));
+    @EJB
+    private AuthorRepository authorRepository;
+
+    @EJB
+    private BookConvertor bookConvertor;
+
+    @EJB
+    private KeywordService keywordService;
+
+    private boolean checkIfFieldShouldBeModified(String oldValue, String newValue, boolean includeBlankValuesCheck) {
+        if (includeBlankValuesCheck) {
+            return newValue != null && !newValue.isBlank() && !newValue.equals(oldValue);
+        }
+        return newValue != null && !newValue.equals(oldValue);
     }
 
-    /**
-     * @param bookId - book unique ID
-     * @return index, -1 if not found
-     */
-    private int findBookIndex(String bookId) {
-        // Books will have unique IDs for sure, so only findFirst.
-        return IntStream.range(0, books.size())
-                .filter(i -> Objects.equals(books.get(i).getBookId(), bookId))
-                .findFirst().orElse(-1);
+    private boolean checkIfFieldShouldBeModified(String oldValue, String newValue) {
+        return checkIfFieldShouldBeModified(oldValue, newValue, false);  // Default to false
     }
 
-    private List<String> filterKeywords(List<String> keywords) {
-        return keywords.stream()
-                .filter(keyword -> keyword != null && !keyword.isBlank())
-                .collect(Collectors.toList());
+    private <T> void modifyIfChanged(boolean condition, T value, Consumer<T> setterAction) {
+        if (condition) {
+            setterAction.accept(value);  // Set the value if condition is true
+        }
+    }
+
+    private void transactionTesting(String title) {
+        // This is for transaction testing
+        if (title != null && title.equals("Test")) {
+            throw new RuntimeException("All changes in DB should rollback because book title is 'Test'");
+        }
     }
 
     @Override
-    public void addBook(BookDto bookDto) throws BookServiceException {
-        // Chance of collision should be zero to none...
-        bookDto.setBookId(UUID.randomUUID().toString());
-        bookDto.setKeywords(filterKeywords(bookDto.getKeywords()));
-        books.add(0, bookDto);
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void addBook(BookDto bookDto) throws BookAlreadyExistsException {
+        if (bookRepository.existsByTitleAndAuthorName(
+                StringUtils.trim(bookDto.getTitle()),
+                StringUtils.trim(bookDto.getAuthor()))
+        ) {
+            throw new BookAlreadyExistsException("Book already exists");
+        }
+        bookRepository.save(bookConvertor.toEntity(bookDto));
     }
 
     @Override
-    @Lock(LockType.READ) // TODO(Hliuza) This Lock won't be needed when DB will be used
     public List<BookDto> getBooks() {
+        List<BookDto> books = new ArrayList<>();
+        for (Book book : bookRepository.findAll()) {
+            books.add(bookConvertor.toDto(book));
+        }
         return books;
     }
 
+    /**
+     * Use this if you want to use just filtration
+     */
     @Override
-    @Lock(LockType.READ)  // TODO(Hliuza) This Lock won't be needed when DB will be used
-    public List<BookDto> getBooks(String author, String title, String keyword, String genre) {
-        // TODO(Yasnov): This is garbage, we should not copy storage each time!
-        List<BookDto> filteredBooks = new ArrayList<>(books);
+    public List<BookDto> getBooks(BookSearchQuery bookSearchQuery) {
+        List<Book> booksFromDB = bookRepository.findBooksFilteredByFields(
+                StringUtils.trimToEmpty(bookSearchQuery.getTitle()),
+                StringUtils.trimToEmpty(bookSearchQuery.getAuthor()),
+                StringUtils.trimToEmpty(bookSearchQuery.getGenre()),
+                StringUtils.trimToEmpty(bookSearchQuery.getKeyword())
+        );
+        List<BookDto> books = new ArrayList<>();
+        for (Book book : booksFromDB) {
+            books.add(bookConvertor.toDto(book));
+        }
+        return books;
+    }
 
-        if (author != null && !author.isEmpty()) {
-            filteredBooks = filteredBooks.stream().filter(book -> book.getAuthor().toLowerCase().contains(author.toLowerCase())).collect(Collectors.toList());
+
+    /**
+     * Use this if you want to use just pagination
+     * @param pageNumber number of the page
+     * @param pageSize number of books on the page
+     * @return books from DB that are paginated by pageNumber and pageSize
+     */
+    @Override
+    public List<BookDto> getBooksWithPagination(int pageNumber, int pageSize) {
+        return bookRepository
+                .getBooksWithPagination(pageNumber, pageSize)
+                .stream()
+                .map(bookConvertor::toDto)
+                .toList();
+    }
+
+
+    // Use this in most cases
+
+    /**
+     * Use this if you want to use both pagination and filtration
+     * @param bookSearchQuery dto to filter users
+     * @param pageNumber number of the page
+     * @param pageSize number of books on the page
+     * @return books from DB that are filtered by fields and paginated by pageNumber and pageSize
+     */
+    @Override
+    public List<BookDto> getBooksWithPaginationAndFiltration(BookSearchQuery bookSearchQuery, int pageNumber, int pageSize) {
+        List<Book> booksFromDB;
+        if (pageNumber < 1 || pageSize < 1) {
+            booksFromDB = bookRepository.findBooksFilteredByFields(
+                    StringUtils.trimToEmpty(bookSearchQuery.getTitle()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getAuthor()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getGenre()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getKeyword())
+            );
+        } else {
+            booksFromDB = bookRepository.getBooksWithPaginationAndFilteredByFields(
+                    StringUtils.trimToEmpty(bookSearchQuery.getTitle()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getAuthor()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getGenre()),
+                    StringUtils.trimToEmpty(bookSearchQuery.getKeyword()),
+                    pageNumber, pageSize
+            );
         }
-        if (title != null && !title.isEmpty()) {
-            filteredBooks = filteredBooks.stream().filter(book -> book.getTitle().toLowerCase().contains(title.toLowerCase())).collect(Collectors.toList());
-        }
-        if (keyword != null && !keyword.isEmpty()) {
-            filteredBooks = filteredBooks.stream().filter(book -> book.getKeywords().stream().anyMatch(k -> k.toLowerCase().contains(keyword.toLowerCase()))).collect(Collectors.toList());
-        }
-        if (genre != null && !genre.isEmpty()) {
-            filteredBooks = filteredBooks.stream().filter(book -> book.getGenre().toLowerCase().contains(genre.toLowerCase())).collect(Collectors.toList());
+        return booksFromDB.stream().map(bookConvertor::toDto).toList();
+    }
+
+    // Use this for PUT in HTTP
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void updateBook(BookDto bookDto) throws BookNotFoundException {
+        Book book = bookRepository.findById(UUID.fromString(bookDto.getBookId()))
+                .orElseThrow(
+                        () -> new BookNotFoundException("Book does not exists")
+                );
+        book.setTitle(bookDto.getTitle());
+        book.getAuthor().setName(bookDto.getAuthor());
+        book.setGenre(bookDto.getGenre());
+        book.getKeywords().clear();
+        List<Keyword> keywords = keywordService.convertStringsToKeywords(bookDto.getKeywords());
+        keywords.forEach(keyword -> keyword.setBook(book));
+        book.setKeywords(keywords);
+        book.setDescription(bookDto.getDescription());
+
+        bookRepository.saveOrUpdate(book);
+
+        transactionTesting(bookDto.getTitle());
+    }
+
+    // Use this for PATCH in HTTP
+    @Override
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void updateBookPartially(BookDto bookDto) throws BookNotFoundException {
+        Book book = bookRepository.findById(UUID.fromString(bookDto.getBookId()))
+                .orElseThrow(
+                        () -> new BookNotFoundException("Book does not exists")
+                );
+        modifyIfChanged(checkIfFieldShouldBeModified(book.getTitle(), bookDto.getTitle(), true),
+                bookDto.getTitle(), book::setTitle
+        );
+        modifyIfChanged(checkIfFieldShouldBeModified(book.getAuthor().getName(), bookDto.getAuthor(), true),
+                bookDto.getAuthor(), book.getAuthor()::setName
+        );
+        modifyIfChanged(checkIfFieldShouldBeModified(book.getGenre(), bookDto.getGenre()),
+                bookDto.getGenre(), book::setGenre
+        );
+        modifyIfChanged(checkIfFieldShouldBeModified(book.getDescription(), bookDto.getDescription()),
+                bookDto.getDescription(), book::setDescription
+        );
+
+        if (bookDto.getKeywords() != null) {
+            List<Keyword> keywords = keywordService.convertStringsToKeywords(bookDto.getKeywords());
+            keywords.forEach(keyword -> keyword.setBook(book));
+            book.setKeywords(keywords);
         }
 
-        return filteredBooks;
+        bookRepository.saveOrUpdate(book);
+
+        transactionTesting(bookDto.getTitle());
     }
 
     @Override
-    public void updateBook(BookDto bookDto) throws BookServiceException {
-        final String bookId = bookDto.getBookId();
-        final int bookIndex = findBookIndex(bookId);
+    @TransactionAttribute(TransactionAttributeType.REQUIRED)
+    public void deleteBookById(String bookId) throws BookNotFoundException {
+        Book book = bookRepository.findById(UUID.fromString(bookId)).orElseThrow(
+                () -> new BookNotFoundException("Book not found")
+        );
+        Author author = book.getAuthor();
 
-        if (bookIndex == -1) {
-            throw new BookServiceException("No book found with id " + bookId + ". Update failed.");
+        bookRepository.deleteById(UUID.fromString(bookId));
+
+        if (bookRepository.countByAuthorId(author.getId()) == 0) {
+            authorRepository.deleteById(author.getId());
         }
 
-        bookDto.setKeywords(filterKeywords(bookDto.getKeywords()));
-        books.set(bookIndex, bookDto);
-    }
-
-    @Override
-    public void deleteBookById(String bookId) throws BookServiceException {
-        final boolean removed = books.removeIf(bookDTO -> bookDTO.getBookId().equals(bookId));
-
-        if (!removed) {
-            throw new BookServiceException("No book found with id " + bookId + ". Deletion failed.");
-        }
     }
 }

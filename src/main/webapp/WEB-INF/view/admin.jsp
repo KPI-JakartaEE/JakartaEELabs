@@ -61,7 +61,7 @@
     </div>
 
     <c:if test="${not empty requestScope.errorMessage}">
-        <div class="error-message">Заповніть поля 'Назва' та 'Автор'</div>
+        <div class="error-message">${requestScope.errorMessage}</div>
     </c:if>
 
     <div class="add-book">
@@ -132,7 +132,6 @@
     </div>
 </div>
 
-<script src="${pageContext.request.contextPath}/js/admin.js"></script>
 </body>
 
 </html>

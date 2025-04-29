@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import ua.kpi.jakartaee.dto.BookDto;
+import ua.kpi.jakartaee.dto.BookSearchQuery;
 import ua.kpi.jakartaee.service.BookService;
 
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class LibraryServlet extends HttpServlet {
         String keyword = request.getParameter("keyword");
         String genre = request.getParameter("genre");
 
-        List<BookDto> books = bookService.getBooks(author, title, keyword, genre);
+        List<BookDto> books = bookService.getBooks(new BookSearchQuery(title, author, genre, keyword));
 
         request.setAttribute("books", books);
         request.getRequestDispatcher("/WEB-INF/view/catalog.jsp").forward(request, response);
