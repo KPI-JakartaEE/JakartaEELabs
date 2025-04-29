@@ -94,4 +94,70 @@ public class BookController {
                     .build();
         }
     }
+
+
+
+
+
+    @PUT
+    @Path("/{id}")
+    public Response updateBook(@PathParam("id") String id, BookDto bookDto) {
+        try {
+            bookDto.setBookId(id);
+            bookService.updateBook(bookDto);
+            return Response.status(Response.Status.OK)
+                    .entity(Map.of(
+                            "success", true,
+                            "message", "Book updated successfully"
+                    ))
+                    .build();
+        } catch (BookNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(Map.of(
+                            "success", false,
+                            "message", e.getMessage()
+                    ))
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Map.of(
+                            "success", false,
+                            "message", "Failed to update book: " + e.getMessage()
+                    ))
+                    .build();
+        }
+    }
+
+    @PATCH
+    @Path("/{id}")
+    public Response updateBookPartially(@PathParam("id") String id, BookDto bookDto) {
+        try {
+            bookDto.setBookId(id);
+            bookService.updateBookPartially(bookDto);
+            return Response.status(Response.Status.OK)
+                    .entity(Map.of(
+                            "success", true,
+                            "message", "Book partially updated successfully"
+                    ))
+                    .build();
+        } catch (BookNotFoundException e) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(Map.of(
+                            "success", false,
+                            "message", e.getMessage()
+                    ))
+                    .build();
+        } catch (Exception e) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                    .entity(Map.of(
+                            "success", false,
+                            "message", "Failed to partially update book: " + e.getMessage()
+                    ))
+                    .build();
+        }
+    }
+
+
+
+
 }
